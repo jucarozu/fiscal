@@ -1,27 +1,58 @@
-# Laravel PHP Framework
+# Fiscal
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Aplicación para la gestión de la fiscalización electrónica de los organismos de tránsito.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## Used Technologies
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+### Database
 
-## Official Documentation
+* Oracle
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+### Backend
 
-## Contributing
+* Laravel 5.2
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+### Frontend
 
-## Security Vulnerabilities
+* Angular 2
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+## Dependencies
 
-## License
+### Backend
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+"php": ">=5.5.9",
+"laravel/framework": "5.2.*",
+"tymon/jwt-auth": "0.5.*",
+"barryvdh/laravel-cors": "0.7.*",
+"yajra/laravel-oci8": "~4.0",
+"phpmailer/phpmailer": "dev-master",
+"felixkiss/uniquewith-validator": "2.*",
+"php-ffmpeg/php-ffmpeg": "~0.5",
+"laravelcollective/html": "^5.2.0",
+"barryvdh/laravel-snappy": "^0.3.2",
+"milon/barcode": "^5.3",
+"jenssegers/date": "^3.2"
+
+### Frontend
+
+"@angular/common": "2.0.0-rc.1",
+"@angular/compiler": "2.0.0-rc.1",
+"@angular/core": "2.0.0-rc.1",
+"@angular/http": "2.0.0-rc.1",
+"@angular/platform-browser": "2.0.0-rc.1",
+"@angular/platform-browser-dynamic": "2.0.0-rc.1",
+"@angular/router": "2.0.0-rc.1",
+"@angular/router-deprecated": "2.0.0-rc.1",
+"@angular/upgrade": "2.0.0-rc.1",
+"angular2-in-memory-web-api": "0.0.7",
+"angular2-jwt": "0.1.15",
+"angular2-notifications": "^0.1.52",
+"es6-shim": "^0.35.0",
+"json2csv": "^3.7.0",
+"ng2-file-upload": "^1.0.3",
+"primeng": "1.0.0-beta.5",
+"primeui": "4.1.10",
+"reflect-metadata": "^0.1.3",
+"rxjs": "5.0.0-beta.6",
+"systemjs": "0.19.27",
+"zone.js": "^0.6.12"
