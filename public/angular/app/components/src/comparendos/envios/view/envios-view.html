@@ -1,0 +1,149 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4><span>Administrar notificaciones</span></h4>
+        </div>
+
+        <div class="panel-body">
+            <div *ngIf="opcion.consulta">
+                <form id="form-notificacion" role="form" (ngSubmit)="getNotificaciones()">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label for="notificacion">Id</label>
+                                <input type="text" id="notificacion" class="form-control" [(ngModel)]="envioFilter.notificacion" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="notif_tipo">Tipo</label>
+                                <select id="notif_tipo" class="form-control" [(ngModel)]="envioFilter.notif_tipo">
+                                    <option *ngFor="let tipo of tiposNotif" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="numero">Nro documento</label>
+                                <input type="text" id="numero" class="form-control" [(ngModel)]="envioFilter.numero" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="notif_tipo_doc">Tipo identificación</label>
+                                <select id="notif_tipo_doc" class="form-control" [(ngModel)]="envioFilter.notif_tipo_doc">
+                                    <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="notif_numero_doc">Identificación</label>
+                                <input type="text" id="notif_numero_doc" class="form-control" [(ngModel)]="envioFilter.notif_numero_doc" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label for="notif_estado">Estado</label>
+                                <select id="notif_estado" class="form-control" [(ngModel)]="envioFilter.notif_estado">
+                                    <option *ngFor="let estado of estados" [value]="estado.parametro">{{ estado.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <button type="submit" id="btn-buscar" class="btn btn-md btn-link">
+                                <i class="fa fa-search"></i>
+                                <span>Buscar</span>
+                            </button>
+                            <button type="button" id="btn-limpiar" class="btn btn-md btn-link" (click)="resetFilter()">
+                                <i class="fa fa-close"></i>
+                                <span>Limpiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p-dataTable [value]="notificaciones" [rows]="10" [paginator]="true" [responsive]="true">
+            <p-column [style]="{'width':'5%'}" field="notificacion" header="Id"></p-column>
+            <p-column [style]="{'width':'8%'}" field="notif_fecha" header="Fecha envío"></p-column>
+            <p-column [style]="{'width':'6%'}" field="notif_medio_desc" header="Medio"></p-column>
+            <p-column [style]="{'width':'8%'}" field="notif_tipo_desc" header="Tipo"></p-column>
+            <p-column [style]="{'width':'10%'}" field="numero" header="Nro documento"></p-column>
+            <p-column [style]="{'width':'13%'}" field="notif_tipo_doc_desc" header="Tipo identificación"></p-column>
+            <p-column [style]="{'width':'10%'}" field="notif_numero_doc" header="Identificación"></p-column>
+            <p-column [style]="{'width':'17%'}" field="notif_nombres_apellidos" header="Nombre"></p-column>
+            <p-column [style]="{'width':'8%'}" field="notif_estado_desc" header="Estado"></p-column>
+            
+            <p-column [style]="{'width':'15%'}">
+                <template let-notificacion="rowData">
+                    <button class="btn btn-xs btn-primary" data-toggle="modal" data-backdrop="static" data-target="#detalle-envios" (click)="selectNotificacion(notificacion)" 
+                        *ngIf="opcion.consulta">
+                        <span class="fa fa-bars" title="Detalle"></span>
+                    </button>
+
+                    <button class="btn btn-xs btn-success" data-toggle="modal" data-backdrop="static" data-target="#entregado-envios" (click)="selectNotificacion(notificacion)" 
+                        *ngIf="opcion.ejecuta && notificacion.notif_medio == 1 && notificacion.notif_estado == 2">
+                        <span class="fa fa-check" title="Envío entregado"></span>
+                    </button>
+
+                    <button class="btn btn-xs btn-info" data-toggle="modal" data-backdrop="static" data-target="#devuelto-envios" (click)="selectNotificacion(notificacion)" 
+                        *ngIf="opcion.ejecuta && notificacion.notif_medio == 1 && notificacion.notif_estado == 2">
+                        <span class="fa fa-arrow-left" title="Envío devuelto"></span>
+                    </button>
+
+                    <button class="btn btn-xs btn-warning" data-toggle="modal" data-backdrop="static" data-target="#descarte-envios" (click)="selectNotificacion(notificacion)" 
+                        *ngIf="opcion.ejecuta && notificacion.notif_medio == 1 && notificacion.notif_estado == 2">
+                        <span class="fa fa-ban" title="Descartar"></span>
+                    </button>
+
+                    <button class="btn btn-xs btn-danger" data-toggle="modal" data-backdrop="static" data-target="#anular-envios" (click)="selectNotificacion(notificacion)" 
+                        *ngIf="opcion.elimina && notificacion.notif_estado != 10">
+                        <span class="fa fa-times" title="Anular"></span>
+                    </button>
+
+                    <button class="btn btn-xs btn-default" data-toggle="modal" data-backdrop="static" data-target="#cola-envios" (click)="selectNotificacion(notificacion)" 
+                        *ngIf="opcion.ejecuta && notificacion.notif_medio == 1 && 
+                               (notificacion.notif_estado == 2 || notificacion.notif_estado == 4 || notificacion.notif_estado == 5 || notificacion.notif_estado == 10)">
+                        <span class="fa fa-history" title="Poner en cola"></span>
+                    </button>
+
+                    <button class="btn btn-xs btn-info" data-toggle="modal" data-backdrop="static" data-target="#fijar-envios" (click)="selectNotificacion(notificacion)" 
+                        *ngIf="opcion.ejecuta && notificacion.notif_medio == 2 && notificacion.notif_estado == 1">
+                        <span class="fa fa-arrow-up" title="Fijar aviso"></span>
+                    </button>
+
+                    <button class="btn btn-xs btn-warning" data-toggle="modal" data-backdrop="static" data-target="#desfijar-envios" (click)="selectNotificacion(notificacion)" 
+                        *ngIf="opcion.ejecuta && notificacion.notif_medio == 2 && notificacion.notif_estado == 6">
+                        <span class="fa fa-arrow-down" title="Desfijar aviso"></span>
+                    </button>
+                </template>
+            </p-column>
+        </p-dataTable>
+
+        <envios-detalle [notificacion]="selectedNotificacion"></envios-detalle>
+        <envios-entregado [notificacion]="selectedNotificacion"></envios-entregado>
+        <envios-devuelto [notificacion]="selectedNotificacion"></envios-devuelto>
+        <envios-descarte [notificacion]="selectedNotificacion"></envios-descarte>
+        <envios-anular [notificacion]="selectedNotificacion"></envios-anular>
+        <envios-cola [notificacion]="selectedNotificacion"></envios-cola>
+        <envios-fijar [notificacion]="selectedNotificacion"></envios-fijar>
+        <envios-desfijar [notificacion]="selectedNotificacion"></envios-desfijar>
+        <direccion-add [persona]="personaForm"></direccion-add>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

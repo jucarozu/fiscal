@@ -1,0 +1,249 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4><span>Imprimir notificaciones</span></h4>
+        </div>
+
+        <form id="form-notificacion" role="form" (ngSubmit)="validar()">
+            <div class="panel-body">
+                <div class="row">
+                    
+                    <div class="col-md-8">
+                        <fieldset>
+                            <legend>Filtros</legend>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                            
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Infracción</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label for="infra_desde">Desde</label>
+                                                            <input type="date" id="infra_desde" class="form-control input-sm" [(ngModel)]="notificacionFilter.infra_desde" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label for="infra_hasta">Hasta</label>
+                                                            <input type="date" id="infra_hasta" class="form-control input-sm" [(ngModel)]="notificacionFilter.infra_hasta" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <hr /><label>Verificación por agente</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label for="verifica_desde">Desde</label>
+                                                            <input type="date" id="verifica_desde" class="form-control input-sm" [(ngModel)]="notificacionFilter.verifica_desde" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label for="verifica_hasta">Hasta</label>
+                                                            <input type="date" id="verifica_hasta" class="form-control input-sm" [(ngModel)]="notificacionFilter.verifica_hasta" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-8">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Detección</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label for="detec_sitio">Sitio</label>
+                                                            <input type="text" id="detec_sitio" class="form-control input-sm" [(ngModel)]="notificacionFilter.detec_sitio" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label for="detec_agente">Agente</label>
+                                                            <select id="detec_agente" class="form-control input-sm" [(ngModel)]="notificacionFilter.detec_agente">
+                                                                <option *ngFor="let agente of agentes" [value]="agente.agente">{{ agente.nombres_apellidos }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <hr /><label>Dirección de notificación</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label for="dir_departamento">Departamento</label>
+                                                            <select id="dir_departamento" class="form-control input-sm" [(ngModel)]="notificacionFilter.dir_departamento" 
+                                                                (blur)="cargarMunicipios(notificacionFilter.dir_departamento)">
+                                                                <option *ngFor="let departamento of departamentos" [value]="departamento.cod_departamento">
+                                                                    {{ departamento.departamento }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <label for="dir_municipio">Municipio</label>
+                                                            <select id="dir_municipio" class="form-control input-sm" [(ngModel)]="notificacionFilter.dir_municipio">
+                                                                <option *ngFor="let municipio of municipios" [value]="municipio.cod_municipio">
+                                                                    {{ municipio.municipio }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="col-md-4">
+                        <fieldset>
+                            <legend>Opciones de impresión</legend>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Orden</label>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" [ngModel]="{checked: notificacionFilter.imp_orden == 1}" (ngModelChange)="notificacionFilter.imp_orden = 1" name="orden" value="1">
+                                                        Carta - comparendo
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" [ngModel]="{checked: notificacionFilter.imp_orden == 2}" (ngModelChange)="notificacionFilter.imp_orden = '2'" name="orden" value="2">
+                                                        Comparendo - carta
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Modo</label>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" [ngModel]="{checked: notificacionFilter.imp_modo == 1}" (ngModelChange)="notificacionFilter.imp_modo = 1" name="modo" value="1">
+                                                        Intercalados
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" [ngModel]="{checked: notificacionFilter.imp_modo == 2}" (ngModelChange)="notificacionFilter.imp_modo = '2'" name="modo" value="2">
+                                                        Bloques
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                            <i class="fa fa-cogs"></i>
+                                            <span>Generar</span>
+                                        </button>
+                                        
+                                        <button type="button" id="btn-reset" class="btn btn-md btn-danger" (click)="resetFilter()">
+                                            <i class="fa fa-undo"></i>
+                                            <span>Limpiar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+        <notificaciones-confirm [notificacionFilter]="notificacionFilter" [agentesSinFirma]="agentesSinFirma"></notificaciones-confirm>
+        <notificaciones-impreso></notificaciones-impreso>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<input type="hidden" id="is-confirm-notificaciones" />
+<input type="hidden" id="is-impreso-notificaciones" />
+
+<input type="button" id="btn-insertar" (click)="insertar()" hidden />
+<input type="button" id="btn-marcar-impreso" (click)="marcarImpreso()" hidden />
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

@@ -1,0 +1,290 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4><span>Carga individual de detección</span></h4>
+        </div>
+
+        <div>
+            <form id="form-carga-individual" role="form" (ngSubmit)="insertar()">
+                <div class="panel-body">
+
+                    <div id="div-errores" *ngIf="errores">
+                        <div class="alert alert-danger" *ngFor="let error of errores">
+                            <span>{{ error }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="fecha">Fecha</label>
+                                        <input type="date" id="fecha" class="form-control" [(ngModel)]="deteccionForm.fecha" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="hora">Hora</label>
+                                        <input type="text" id="hora" class="form-control" [(ngModel)]="deteccionForm.hora" required 
+                                            pattern="([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]" maxlength="5" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="fuente">Fuente</label>
+                                        <select id="fuente" class="form-control" [(ngModel)]="deteccionForm.fuente" (blur)="cargarUbicacionFuente()" required>
+                                            <option *ngFor="let fuente of fuentes" [value]="fuente.fuente">{{ fuente.nombre }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="referencia_disp">Referencia dispositivo</label>
+                                        <input type="text" id="referencia_disp" class="form-control" [(ngModel)]="deteccionForm.referencia_disp" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="direccion">Dirección</label>
+                                        <input type="text" id="direccion" class="form-control" [(ngModel)]="deteccionForm.direccion" maxlength="255" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="complemento_direccion">Complemento dirección</label>
+                                        <input type="text" id="complemento_direccion" class="form-control" [(ngModel)]="deteccionForm.complemento_direccion" maxlength="255" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <sebm-google-map #map style="height: 200px;" 
+                                [latitude]="deteccionForm.latitud != null ? deteccionForm.latitud : lat" 
+                                [longitude]="deteccionForm.longitud != null ? deteccionForm.longitud : lng" 
+                                [zoom]="zoom" 
+                                [streetViewControl]="false" 
+                                (mapClick)="mapClicked($event)">
+                                
+                                <sebm-google-map-marker 
+                                    *ngIf="deteccionForm.latitud != null && deteccionForm.longitud != null" 
+                                    [latitude]="deteccionForm.latitud" 
+                                    [longitude]="deteccionForm.longitud" 
+                                    [label]="Fuente" 
+                                    [markerDraggable]="true" 
+                                    (dragEnd)="markerDragEnd($event)">
+                                    
+                                    <sebm-google-map-info-window [disableAutoPan]="true">
+                                        Latitud: {{ deteccionForm.latitud }} <br />
+                                        Longitud: {{ deteccionForm.longitud }}
+                                    </sebm-google-map-info-window>
+
+                                </sebm-google-map-marker>
+                            </sebm-google-map>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="placa">Placa</label>
+                                <input type="text" id="placa" class="form-control" maxlength="8" [(ngModel)]="deteccionForm.placa" (blur)="convertPlacaToUpper()"
+                                    pattern="^[A-Za-z]{3}[0-9]{3}$|^[A-Za-z]{3}(0[1-9]|[1-9][0-9])[A-Za-z]?$|^[0-9]{3}[A-Za-z]{3}$|^[Mm]([Aa]|[Ii]|[Cc])[0-9]{6}$|^[A-Za-z][0-9]{5}$"
+                                    title="Debe ingresar una placa válida." />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="tipo_vehiculo">Tipo vehículo</label>
+                                <select id="tipo_vehiculo" class="form-control" [(ngModel)]="deteccionForm.tipo_vehiculo">
+                                    <option *ngFor="let tipo of tiposVehiculo" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="color">Color</label>
+                                <input type="text" id="color" class="form-control" [(ngModel)]="deteccionForm.color" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="servicio">Servicio</label>
+                                <select id="servicio" class="form-control" [(ngModel)]="deteccionForm.servicio">
+                                    <option *ngFor="let servicio of servicios" [value]="servicio.parametro">{{ servicio.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="nivel">Nivel</label>
+                                <select id="nivel" class="form-control" [(ngModel)]="deteccionForm.nivel">
+                                    <option *ngFor="let nivel of niveles" [value]="nivel.parametro">{{ nivel.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="carril">Carril</label>
+                                <input type="text" id="carril" class="form-control" [(ngModel)]="deteccionForm.carril" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="sentido">Sentido</label>
+                                <select id="sentido" class="form-control" [(ngModel)]="deteccionForm.sentido" required>
+                                    <option *ngFor="let sentido of sentidos" [value]="sentido.parametro">{{ sentido.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="velocidad">Velocidad</label>
+                                <input type="number" id="velocidad" class="form-control" [(ngModel)]="deteccionForm.velocidad" step="0.1" min="0" max="300" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="unidad_velocidad">Unidad velocidad</label>
+                                <select id="unidad_velocidad" class="form-control" [(ngModel)]="deteccionForm.unidad_velocidad">
+                                    <option *ngFor="let unidad of unidadesVelocidad" [value]="unidad.parametro">{{ unidad.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="observaciones">Observaciones</label>
+                                <input type="text" id="observaciones" class="form-control" [(ngModel)]="deteccionForm.observaciones" maxlength="255" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Evidencias</legend>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="file" accept="image/jpeg,image/png,video/mp4,video/avi" id="input-evidencia-add" class="form-control" 
+                                                ng2FileSelect [uploader]="uploader" multiple />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-danger btn-s" (click)="resetEvidencias()" [disabled]="!uploader.queue.length">
+                                                <i class="fa fa-times"></i>
+                                                <span>Borrar todo</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="height: 200px; overflow: auto;">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th class="col-md-6">Nombre</th>
+                                            <th class="col-md-2">Tamaño (KB)</th>
+                                            <th class="col-md-2">Tipo</th>
+                                            <th class="col-md-2">Opciones</th>
+                                        </tr>
+
+                                        <tr *ngFor="let item of uploader.queue">
+                                            <td>{{ item?.file?.name }}</td>
+                                            <td>{{ item?.file?.size/1024 | number:'.0' }} KB</td>
+                                            <td>{{ 
+                                                item?.file?.type == 'image/jpeg' || item?.file?.type == 'image/png' 
+                                                    ? 'Imagen' 
+                                                : item?.file?.type == 'video/mp4' || item?.file?.type == 'video/avi' 
+                                                    ? 'Video' 
+                                                : 
+                                                    'Archivo inválido'
+                                                }}
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-xs" (click)="borrarEvidencia(item)">
+                                                    <span class="fa fa-times"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Infracciones</legend>
+
+                                <div style="height: 250px; overflow: auto;">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th class="col-md-5">Infracción</th>
+                                            <th class="col-md-1"><span class="fa fa-check"></span></th>
+                                            <th class="col-md-6">Observación</th>
+                                        </tr>
+                                        <tr class="list-group" *ngFor="let infraccion of infracciones">
+                                            <td>{{ infraccion.codigo + " - " + infraccion.nombre_corto }}</td>
+                                            <td><input type="checkbox" [(ngModel)]="infraccion.tiene_infraccion" (change)="infraccion.observacion = null" /></td>
+                                            <td><input type="text" class="form-control" [(ngModel)]="infraccion.observacion" [disabled]="infraccion.tiene_infraccion == false" /></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                            <i class="fa fa-floppy-o"></i>
+                            <span>Aceptar</span>
+                        </button>
+                        
+                        <button type="button" id="btn-reset-add" class="btn btn-md btn-danger" (click)="resetFormulario()">
+                            <i class="fa fa-undo"></i>
+                            <span>Resetear</span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<div id="evid-array-bytes" hidden></div>
+<input type="button" id="btn-load-evidencia" (click)="cargarEvidencia()" hidden />
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

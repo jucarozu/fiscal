@@ -1,0 +1,101 @@
+<div class="modal fade" id="edit-infraccion" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Editar infracción</h4>
+            </div>
+            
+            <div>
+                <form id="form-infraccion" role="form" (ngSubmit)="actualizar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="codigo">Código</label>
+                                    <input type="text" id="codigo" class="form-control" [(ngModel)]="infraccionForm.codigo" disabled />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre_corto">Nombre corto</label>
+                                    <input type="text" id="nombre_corto" class="form-control" [(ngModel)]="infraccionForm.nombre_corto" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción</label>
+                                    <textarea rows="3" id="descripcion" class="form-control" [(ngModel)]="infraccionForm.descripcion" 
+                                        placeholder="Ingrese una descripción" maxlength="255" required>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="salarios_dia">Salarios/día</label>
+                                    <input type="number" id="salarios_dia" class="form-control" [(ngModel)]="infraccionForm.salarios_dia" step="0.01" min="0" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="checkbox" id="reporta_simit" [(ngModel)]="infraccionForm.reporta_simit" />
+                                    <label for="reporta_simit">Reporta Simit</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="checkbox" id="sancion_auto" [(ngModel)]="infraccionForm.sancion_auto" />
+                                    <label for="sancion_auto">Sanción automática</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-floppy-o"></i>
+                                <span>Aceptar</span>
+                            </button>
+                            
+                            <button type="button" id="btn-reset" class="btn btn-md btn-primary" (click)="resetFormulario()">
+                                <i class="fa fa-undo"></i>
+                                <span>Resetear</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

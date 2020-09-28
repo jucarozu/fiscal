@@ -1,0 +1,414 @@
+<div class="modal fade" id="conductor-sustitucion" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 80%; overflow-y: initial !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Sustituir conductor</h4>
+            </div>
+
+            <form id="form-sustitucion" role="form" (ngSubmit)="procesar()">
+
+                <div class="modal-body" style="height: 600px; overflow-y: auto;">                
+                    <div id="div-errores" *ngIf="errores">
+                        <div class="alert alert-danger" *ngFor="let error of errores">
+                            <span>{{ error }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Información del comparendo</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="numero">Número comparendo</label>
+                                <input type="text" id="numero" class="form-control input-sm" [(ngModel)]="comparendoForm.numero" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="fecha_imposicion">Fecha</label>
+                                <input type="date" id="fecha_imposicion" class="form-control input-sm" [(ngModel)]="comparendoForm.fecha_imposicion" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="hora_imposicion">Hora</label>
+                                <input type="text" id="hora_imposicion" class="form-control input-sm" [(ngModel)]="comparendoForm.hora_imposicion" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infraccion">Infracción</label>
+                                <input type="text" id="infraccion" class="form-control input-sm" [(ngModel)]="comparendoForm.infr_codigo" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="estado">Estado</label>
+                                <input type="text" id="estado" class="form-control input-sm" [(ngModel)]="comparendoForm.estado_desc" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_valor">Valor</label>
+                                <input type="text" id="infr_valor" class="form-control input-sm" [(ngModel)]="comparendoForm.infr_valor" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="placa_vehiculo">Placa vehículo</label>
+                                <input type="text" id="placa_vehiculo" class="form-control input-sm" [(ngModel)]="comparendoForm.placa_vehiculo" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Datos de propietario</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="prop_tipo_doc">Tipo identificación</label>
+                                <input type="text" id="prop_tipo_doc" class="form-control input-sm" [(ngModel)]="comparendoForm.prop_tipo_doc_desc" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="prop_numero_doc">Número identificación</label>
+                                <input type="text" id="prop_numero_doc" class="form-control input-sm" [(ngModel)]="comparendoForm.prop_numero_doc" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="prop_nombres">Nombres</label>
+                                <input type="text" id="prop_nombres" class="form-control input-sm" [(ngModel)]="comparendoForm.prop_nombres" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="prop_apellidos">Apellidos</label>
+                                <input type="text" id="prop_apellidos" class="form-control input-sm" [(ngModel)]="comparendoForm.prop_apellidos" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Datos de infractor</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_tipo_doc">Tipo identificación</label>
+                                <input type="text" id="infr_tipo_doc" class="form-control input-sm" [(ngModel)]="comparendoForm.infr_tipo_doc_desc" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_numero_doc">Número identificación</label>
+                                <input type="text" id="infr_numero_doc" class="form-control input-sm" [(ngModel)]="comparendoForm.infr_numero_doc" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_nombres">Nombres</label>
+                                <input type="text" id="infr_nombres" class="form-control input-sm" [(ngModel)]="comparendoForm.infr_nombres" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_apellidos">Apellidos</label>
+                                <input type="text" id="infr_apellidos" class="form-control input-sm" [(ngModel)]="comparendoForm.infr_apellidos" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_edad">Edad</label>
+                                <input type="text" id="infr_edad" class="form-control input-sm" [(ngModel)]="comparendoForm.edad_infractor" disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Datos de sustitución</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="numero_resolucion">Número resolución</label>
+                                <input type="text" id="numero_resolucion" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.numero_resolucion" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="fecha_resolucion">Fecha resolución</label>
+                                <input type="date" id="fecha_resolucion" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.fecha_resolucion" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Datos de infractor</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_tipo_doc">Tipo identificación</label>
+                                <select id="infr_tipo_doc" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.infr_tipo_doc" (blur)="getPersonaByDocumento()" required>
+                                    <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_numero_doc">Número identificación</label>
+                                <input type="text" id="infr_numero_doc" class="form-control input-sm" placeholder="Ingrese número de documento" maxlength="20"
+                                    [(ngModel)]="sustitucionConductorForm.infr_numero_doc" (blur)="getPersonaByDocumento()" required />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_nombres">Nombres</label>
+                                <input type="text" id="infr_nombres" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.infr_nombres" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_apellidos">Apellidos</label>
+                                <input type="text" id="infr_apellidos" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.infr_apellidos" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_edad">Edad</label>
+                                <input type="number" min="1" max="99" id="infr_edad" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.infr_edad" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Licencia de conducción</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="lic_numero">Número</label>
+                                <input type="text" id="lic_numero" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.lic_numero" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="lic_categoria">Categoría</label>
+                                <select id="lic_categoria" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.lic_categoria">
+                                    <option *ngFor="let categoria of categorias" [value]="categoria.parametro">{{ categoria.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="lic_expedicion">Fecha expedición</label>
+                                <input type="date" id="lic_expedicion" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.lic_expedicion" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="fecha_vencimiento">Fecha vencimiento</label>
+                                <input type="date" id="fecha_vencimiento" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.lic_vencimiento" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="lic_organismo">Organismo de tránsito</label>
+                                <select id="lic_organismo" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.lic_organismo">
+                                    <option *ngFor="let organismo of organismos" [value]="organismo.parametro">{{ organismo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Datos de contacto</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="contacto_direccion">Dirección</label>
+                                <input type="text" id="contacto_direccion" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.contacto_direccion" required />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="contacto_departamento">Departamento</label>
+                                <select id="contacto_departamento" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.contacto_departamento" 
+                                    (blur)="cargarMunicipios(sustitucionConductorForm.contacto_departamento)" required>
+                                    <option *ngFor="let departamento of departamentos" [value]="departamento.cod_departamento">{{ departamento.departamento }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="contacto_municipio">Municipio</label>
+                                <select id="contacto_municipio" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.contacto_municipio" required>
+                                    <option *ngFor="let municipio of municipios" [value]="municipio.cod_municipio">{{ municipio.municipio }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="telefono">Teléfono</label>
+                                <input type="text" id="telefono" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.contacto_telefono" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="celular">Celular</label>
+                                <input type="text" id="celular" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.contacto_celular" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.contacto_email" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label for="observaciones">Observaciones</label>
+                                <textarea rows="3" id="observaciones" class="form-control input-sm" [(ngModel)]="sustitucionConductorForm.observaciones">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Notificación</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="checkbox" id="infractor_presente" [(ngModel)]="sustitucionConductorForm.infractor_presente" />
+                                <label for="infractor_presente">Infractor presente</label>
+                            </div>                        
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Formulario de preguntas</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                            <i class="fa fa-check"></i>
+                            <span>Confirmar</span>
+                        </button>
+
+                        <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                            <i class="fa fa-sign-out"></i>
+                            <span>Cancelar</span>
+                        </button>
+                    </div>
+                </div>
+                
+            </form>
+
+            <div *ngIf="loading()">
+                <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+            </div>
+
+            <input type="button" id="btn-load-persona" (click)="cargarPersona()" hidden />
+
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

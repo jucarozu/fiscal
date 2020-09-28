@@ -1,0 +1,54 @@
+/* *******************************
+************ CARTAS **************
+******************************* */
+
+article#cartas {
+    height: 1286px;
+    margin-bottom: 22px;
+}
+
+article#cartas h1, h2, h3, h4 {
+	font-weight: bold;
+	margin: 0;
+	text-align: center;
+}
+
+article#cartas h1 {
+	font-size: 20px;
+}
+
+article#cartas div.div-align-right {
+	text-align: right;
+}
+
+article#cartas div.div-font-16 {
+	font-size: 16px;
+	margin: 0;
+	padding: 3px 0;
+	text-align: justify;
+}
+
+article#cartas div.div-font-8 {
+	font-size: 8px;
+}
+
+article#cartas div.div-font-italic {
+	font-style: italic;
+}
+
+article#cartas div.div-margin-out {
+	margin: 10px 1px 3px 1px;
+}
+
+article#cartas div.div-margin-dest {
+	margin-bottom: 10px;
+	margin-top: 30px;
+}
+
+article#cartas div.div-margin-cuerpo {
+	margin-top: 20px;
+}
+
+article#cartas div.div-margin-footer {
+	margin-top: 70px;
+}

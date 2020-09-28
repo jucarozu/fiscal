@@ -1,0 +1,141 @@
+<div class="modal fade" id="add-direccion" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Adicionar dirección</h4>
+            </div>
+            
+            <div>
+                <form id="form-direccion" role="form" (ngSubmit)="insertar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tipo_doc">Tipo documento</label>
+                                    <select id="tipo_doc" class="form-control" [(ngModel)]="direccionForm.tipo_doc" (blur)="getPersonaByDocumento()" required>
+                                        <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="numero_doc">Número documento</label>
+                                    <input type="text" id="numero_doc" class="form-control" placeholder="Ingrese número de documento" maxlength="20"
+                                        [(ngModel)]="direccionForm.numero_doc" (blur)="getPersonaByDocumento()" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" class="form-control" [(ngModel)]="direccionForm.nombres_apellidos" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fuente">Fuente</label>
+                                    <select id="fuente" class="form-control" [(ngModel)]="direccionForm.fuente" required>
+                                        <option *ngFor="let fuente of fuentes" [value]="fuente.parametro">{{ fuente.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="observaciones">Observaciones</label>
+                                    <input type="text" id="observaciones" class="form-control" [(ngModel)]="direccionForm.observaciones" maxlength="200" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="departamento">Departamento</label>
+                                    <select id="departamento" class="form-control" [(ngModel)]="direccionForm.cod_departamento" 
+                                        (blur)="cargarMunicipios(direccionForm.cod_departamento)" required>
+                                        <option *ngFor="let departamento of departamentos" [value]="departamento.cod_departamento">{{ departamento.departamento }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="municipio">Municipio</label>
+                                    <select id="municipio" class="form-control" [(ngModel)]="direccionForm.cod_municipio"
+                                        (blur)="cargarPoblados(direccionForm.cod_municipio)" required>
+                                        <option *ngFor="let municipio of municipios" [value]="municipio.cod_municipio">{{ municipio.municipio }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="poblado">Poblado</label>
+                                    <select id="poblado" class="form-control" [(ngModel)]="direccionForm.cod_poblado">
+                                        <option *ngFor="let poblado of poblados" [value]="poblado.cod_poblado">{{ poblado.poblado }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="descripcion">Dirección</label>
+                                    <textarea rows="2" id="descripcion" class="form-control" [(ngModel)]="direccionForm.descripcion" 
+                                        placeholder="Ingrese una dirección" maxlength="200" required>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-floppy-o"></i>
+                                <span>Aceptar</span>
+                            </button>
+                            
+                            <button type="button" id="btn-reset" class="btn btn-md btn-primary" (click)="resetFormulario()">
+                                <i class="fa fa-undo"></i>
+                                <span>Resetear</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                    <input type="button" id="btn-load-persona" (click)="cargarPersona()" hidden />
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

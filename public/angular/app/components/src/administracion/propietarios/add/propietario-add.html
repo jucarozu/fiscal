@@ -1,0 +1,155 @@
+<div class="modal fade" id="add-propietario" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Adicionar propietario</h4>
+            </div>
+            
+            <div>
+                <form id="form-propietario" role="form" (ngSubmit)="insertar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="placa">Placa</label>
+                                    <input type="text" id="placa" class="form-control" maxlength="8" [(ngModel)]="propietarioForm.placa" (blur)="convertPlacaToUpper()"
+                                        pattern="^[A-Za-z]{3}[0-9]{3}$|^[A-Za-z]{3}(0[1-9]|[1-9][0-9])[A-Za-z]?$|^[0-9]{3}[A-Za-z]{3}$|^[Mm]([Aa]|[Ii]|[Cc])[0-9]{6}$|^[A-Za-z][0-9]{5}$"
+                                        title="Debe ingresar una placa válida." required />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tipo_doc">Tipo documento</label>
+                                    <select id="tipo_doc" class="form-control" [(ngModel)]="propietarioForm.tipo_doc" (blur)="getPersonaByDocumento()" required>
+                                        <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="numero_doc">Número documento</label>
+                                    <input type="text" id="numero_doc" class="form-control" placeholder="Ingrese número de documento" maxlength="20"
+                                        [(ngModel)]="propietarioForm.numero_doc" (blur)="getPersonaByDocumento()" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" class="form-control" [(ngModel)]="propietarioForm.nombres_apellidos" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fuente">Fuente</label>
+                                    <select id="fuente" class="form-control" [(ngModel)]="propietarioForm.fuente" required>
+                                        <option *ngFor="let fuente of fuentes" [value]="fuente.parametro">{{ fuente.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tipo">Tipo propietario</label>
+                                    <select id="tipo" class="form-control" [(ngModel)]="propietarioForm.tipo" (blur)="mostrarLocatario()" required>
+                                        <option *ngFor="let tipo_prop of tipos_prop" [value]="tipo_prop.parametro">{{ tipo_prop.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="locatario-add" class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="loc_tipo_doc">Tipo doc. locatario</label>
+                                    <select id="loc_tipo_doc" class="form-control" [(ngModel)]="propietarioForm.loc_tipo_doc" (blur)="getLocatarioByDocumento()">
+                                        <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="loc_numero_doc">Número doc. locatario</label>
+                                    <input type="text" id="loc_numero_doc" class="form-control" placeholder="Ingrese número de documento" maxlength="20"
+                                        [(ngModel)]="propietarioForm.loc_numero_doc" (blur)="getLocatarioByDocumento()" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="loc_nombres_apellidos">Nombre locatario</label>
+                                    <input type="text" id="loc_nombres_apellidos" class="form-control" [(ngModel)]="propietarioForm.loc_nombres_apellidos" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="desde">Fecha inicial</label>
+                                    <input type="date" id="desde" class="form-control" [(ngModel)]="propietarioForm.desde" required />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="hasta">Fecha final</label>
+                                    <input type="date" id="hasta" class="form-control" [(ngModel)]="propietarioForm.hasta" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-floppy-o"></i>
+                                <span>Aceptar</span>
+                            </button>
+                            
+                            <button type="button" id="btn-reset-add" class="btn btn-md btn-primary" (click)="resetFormulario()">
+                                <i class="fa fa-undo"></i>
+                                <span>Resetear</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                    <input type="button" id="btn-load-persona-add" (click)="cargarPersona()" hidden />
+                    <input type="button" id="btn-load-locatario-add" (click)="cargarLocatario()" hidden />
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

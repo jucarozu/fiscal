@@ -1,0 +1,84 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4>
+                <span>Propietarios</span>
+                <button class="btn btn-md btn-link" data-toggle="modal" data-backdrop="static" data-target="#add-propietario" *ngIf="opcion.adiciona">
+                    <i class="fa fa-plus"></i>
+                    <span>Adicionar</span>
+                </button>
+            </h4>
+            
+            <div *ngIf="opcion.consulta">
+                <form id="form-propietario" role="form" (ngSubmit)="getPropietarios()">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="placa">Placa</label>
+                                <input type="text" id="placa" class="form-control" [(ngModel)]="propietarioFilter.placa" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="tipo_doc">Tipo documento</label>
+                                <select id="tipo_doc" class="form-control" [(ngModel)]="propietarioFilter.tipo_doc">
+                                    <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="numero_doc">Número documento</label>
+                                <input type="text" id="numero_doc" class="form-control" [(ngModel)]="propietarioFilter.numero_doc" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <button type="submit" id="btn-buscar" class="btn btn-md btn-link">
+                                <i class="fa fa-search"></i>
+                                <span>Buscar</span>
+                            </button>
+                            <button type="button" id="btn-limpiar" class="btn btn-md btn-link" (click)="resetFilter()">
+                                <i class="fa fa-close"></i>
+                                <span>Limpiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p-dataTable [value]="propietarios" [rows]="10" [paginator]="true" [responsive]="true">
+            <p-column [style]="{'width':'10%'}" field="placa" header="Placa"></p-column>
+            <p-column [style]="{'width':'15%'}" field="tipo_doc_desc" header="Tipo documento"></p-column>
+            <p-column [style]="{'width':'10%'}" field="numero_doc" header="Número documento"></p-column>
+            <p-column [style]="{'width':'25%'}" field="nombres_apellidos" header="Nombre"></p-column>
+            <p-column [style]="{'width':'10%'}" field="desde" header="Fecha desde"></p-column>
+            <p-column [style]="{'width':'10%'}" field="hasta" header="Fecha hasta"></p-column>
+            <p-column [style]="{'width':'10%'}" field="fecha_registra" header="Fecha registro"></p-column>
+            
+            <p-column [style]="{'width':'10%'}">
+                <template let-propietario="rowData">
+                    <button class="btn btn-xs btn-success" data-toggle="modal" data-backdrop="static" data-target="#edit-propietario" (click)="selectPropietario(propietario)" *ngIf="opcion.edita">
+                        <span class="fa fa-pencil" title="Editar"></span>
+                    </button>
+                </template>
+            </p-column>
+        </p-dataTable>
+
+        <propietario-add></propietario-add>
+        <propietario-edit [propietario]="selectedPropietario"></propietario-edit>
+
+        <persona-add></persona-add>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

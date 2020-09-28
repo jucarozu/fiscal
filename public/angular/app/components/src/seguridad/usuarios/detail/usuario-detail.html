@@ -1,0 +1,88 @@
+<div class="modal fade" id="detail-usuario" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Detalle usuario</h4>
+            </div>
+
+            <div class="modal-body">                    
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tipo_doc">Tipo documento</label>
+                            <select id="tipo_doc" class="form-control" [(ngModel)]="usuarioForm.tipo_doc" disabled>
+                                <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="numero_doc">Número documento</label>
+                            <input type="text" id="numero_doc" class="form-control" [(ngModel)]="usuarioForm.numero_doc" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" class="form-control" [(ngModel)]="usuarioForm.nombres_apellidos" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="login">Login</label>
+                            <input type="text" id="login" class="form-control" [(ngModel)]="usuarioForm.login" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <select id="cargo" class="form-control" [(ngModel)]="usuarioForm.cargo" disabled>
+                                <option *ngFor="let cargo of cargos" [value]="cargo.parametro">{{ cargo.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" [(ngModel)]="usuarioForm.email" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Roles</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div *ngFor="let rol of usuarioForm.roles">
+                        <div class="col-md-4">
+                            <input type="checkbox" id="rol" [(ngModel)]="rol.tiene_rol" disabled />
+                            <span>{{ rol.nombre }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-md btn-danger" data-dismiss="modal">
+                        <i class="fa fa-sign-out"></i>
+                        <span>Cerrar</span>
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

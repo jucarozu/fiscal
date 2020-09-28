@@ -1,0 +1,60 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4>
+                <span>Lista de validación</span>
+            </h4>
+            
+            <div *ngIf="opcion.consulta">
+                <form id="form-deteccion" role="form" (ngSubmit)="getDetecciones()">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="fuente">Fuente</label>
+                                <select id="fuente" class="form-control" [(ngModel)]="deteccionFilter.fuente">
+                                    <option *ngFor="let fuente of fuentes" [value]="fuente.fuente">{{ fuente.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <button type="submit" id="btn-buscar" class="btn btn-md btn-link">
+                                <i class="fa fa-search"></i>
+                                <span>Buscar</span>
+                            </button>
+                            <button type="button" id="btn-limpiar" class="btn btn-md btn-link" (click)="resetFilter()">
+                                <i class="fa fa-close"></i>
+                                <span>Limpiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p-dataTable [value]="detecciones" [rows]="10" [paginator]="true" [responsive]="true">
+            <p-column [style]="{'width':'15%'}" field="deteccion" header="Código"></p-column>
+            <p-column [style]="{'width':'20%'}" field="fuente_nombre" header="Fuente"></p-column>
+            <p-column [style]="{'width':'15%'}" field="fecha" header="Fecha y hora"></p-column>
+            <p-column [style]="{'width':'25%'}" field="direccion" header="Dirección"></p-column>
+            <p-column [style]="{'width':'15%'}" field="placa" header="Placa"></p-column>
+            
+            <p-column [style]="{'width':'10%'}">
+                <template let-fuente="rowData">
+                    <button class="btn btn-sm btn-success" [routerLink]="['PruebasValidacionAdd', { deteccion : fuente.deteccion }]" *ngIf="opcion.adiciona">
+                        <i class="fa fa-check"></i>
+                        <span>Validar</span>
+                    </button>
+                </template>
+            </p-column>
+        </p-dataTable>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

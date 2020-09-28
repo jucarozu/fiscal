@@ -1,0 +1,88 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4>
+                <span>Infracciones</span>
+                <button class="btn btn-md btn-link" data-toggle="modal" data-backdrop="static" data-target="#add-infraccion" *ngIf="opcion.adiciona">
+                    <i class="fa fa-plus"></i>
+                    <span>Adicionar</span>
+                </button>
+            </h4>
+            
+            <div *ngIf="opcion.consulta">
+                <form id="form-infraccion" role="form" (ngSubmit)="getInfracciones()">                    
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="codigo">Código</label>
+                                <input type="text" id="codigo" class="form-control" [(ngModel)]="infraccionFilter.codigo" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="nombre_corto">Nombre corto</label>
+                                <input type="text" id="nombre_corto" class="form-control" [(ngModel)]="infraccionFilter.nombre_corto" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <input type="text" id="descripcion" class="form-control" [(ngModel)]="infraccionFilter.descripcion" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <button type="submit" id="btn-buscar" class="btn btn-md btn-link">
+                                <i class="fa fa-search"></i>
+                                <span>Buscar</span>
+                            </button>
+                            <button type="button" id="btn-limpiar" class="btn btn-md btn-link" (click)="resetFilter()">
+                                <i class="fa fa-close"></i>
+                                <span>Limpiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p-dataTable [value]="infracciones" [rows]="10" [paginator]="true" [responsive]="true">
+            <p-column [style]="{'width':'15%'}" field="codigo" header="Código"></p-column>
+            <p-column [style]="{'width':'35%'}" field="nombre_corto" header="Nombre corto"></p-column>
+            <p-column [style]="{'width':'15%'}" field="salarios_dia" header="Salarios/día"></p-column>
+            
+            <p-column [style]="{'width':'15%'}" header="Reporta Simit">
+                <template let-infraccion="rowData">
+                    <span>{{ infraccion.reporta_simit ? 'SI' : 'NO' }}</span>
+                </template>
+            </p-column>
+
+            <p-column [style]="{'width':'15%'}" header="Sanción automática">
+                <template let-infraccion="rowData">
+                    <span>{{ infraccion.sancion_auto ? 'SI' : 'NO' }}</span>
+                </template>
+            </p-column>
+            
+            <p-column [style]="{'width':'5%'}">
+                <template let-infraccion="rowData">
+                    <button class="btn btn-xs btn-success" data-toggle="modal" data-backdrop="static" data-target="#edit-infraccion" (click)="selectInfraccion(infraccion)" *ngIf="opcion.edita">
+                        <span class="fa fa-pencil" title="Editar"></span>
+                    </button>
+                </template>
+            </p-column>
+        </p-dataTable>
+
+        <infraccion-add></infraccion-add>
+        <infraccion-edit [infraccion]="selectedInfraccion"></infraccion-edit>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

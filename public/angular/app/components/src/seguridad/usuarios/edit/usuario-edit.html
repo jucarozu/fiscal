@@ -1,0 +1,126 @@
+<div class="modal fade" id="edit-usuario" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Editar usuario</h4>
+            </div>
+
+            <div>
+                <form id="form-usuario" role="form" (ngSubmit)="actualizar()">
+
+                    <div class="modal-body">                        
+                        <div id="div-mensaje" *ngIf="mensaje">
+                            <div class="alert alert-success">
+                                <span>{{ mensaje }}</span>
+                            </div>
+                        </div>
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tipo_doc">Tipo documento</label>
+                                    <select id="tipo_doc" class="form-control" [(ngModel)]="usuarioForm.tipo_doc" disabled>
+                                        <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="numero_doc">Número documento</label>
+                                    <input type="text" id="numero_doc" class="form-control" [(ngModel)]="usuarioForm.numero_doc" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" class="form-control" [(ngModel)]="usuarioForm.nombres_apellidos" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="login">Login</label>
+                                    <input type="text" id="login" class="form-control" [(ngModel)]="usuarioForm.login" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tipo_doc">Cargo</label>
+                                    <select id="cargo" class="form-control" [(ngModel)]="usuarioForm.cargo" required>
+                                        <option *ngFor="let cargo of cargos" [value]="cargo.parametro">{{ cargo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" class="form-control" placeholder="Ingrese un email" maxlength="100" [(ngModel)]="usuarioForm.email" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Roles</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div *ngFor="let rol of usuarioForm.roles">
+                                <div class="col-md-4">
+                                    <input type="checkbox" id="rol" [(ngModel)]="rol.tiene_rol" />
+                                    <span>{{ rol.nombre }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="button" id="btn-restablecer" class="btn btn-md btn-default" (click)="restablecerPassword()">
+                                <i class="fa fa-undo"></i>
+                                <span>Restablecer contraseña</span>
+                            </button>
+
+                            <button type="button" id="btn-forzar" class="btn btn-md btn-default" (click)="forzarPassword()">
+                                <i class="fa fa-cog"></i>
+                                <span>Forzar contraseña</span>
+                            </button>
+
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-floppy-o"></i>
+                                <span>Aceptar</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

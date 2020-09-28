@@ -1,0 +1,100 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4><span>Administrar comparendos</span></h4>
+        </div>
+            
+        <div class="panel-body">
+            <div *ngIf="opcion.consulta">
+                <form id="form-comparendo" role="form" (ngSubmit)="getComparendos()">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="numero">Número comparendo</label>
+                                <input type="text" id="numero" class="form-control" [(ngModel)]="comparendoFilter.numero" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_tipo_doc">Tipo identificación</label>
+                                <select id="infr_tipo_doc" class="form-control" [(ngModel)]="comparendoFilter.infr_tipo_doc">
+                                    <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="infr_numero_doc">Identificación</label>
+                                <input type="text" id="infr_numero_doc" class="form-control" [(ngModel)]="comparendoFilter.infr_numero_doc" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="estado">Estado</label>
+                                <select id="estado" class="form-control" [(ngModel)]="comparendoFilter.estado">
+                                    <option *ngFor="let estado of estados" [value]="estado.parametro">{{ estado.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <button type="submit" id="btn-buscar" class="btn btn-md btn-link">
+                                <i class="fa fa-search"></i>
+                                <span>Buscar</span>
+                            </button>
+                            <button type="button" id="btn-limpiar" class="btn btn-md btn-link" (click)="resetFilter()">
+                                <i class="fa fa-close"></i>
+                                <span>Limpiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p-dataTable [value]="comparendos" [rows]="10" [paginator]="true" [responsive]="true">
+            <p-column [style]="{'width':'15%'}" field="numero" header="Número"></p-column>
+            <p-column [style]="{'width':'15%'}" field="fecha_imposicion" header="Fecha"></p-column>
+            <p-column [style]="{'width':'10%'}" field="infr_codigo" header="Infracción"></p-column>
+            <p-column [style]="{'width':'25%'}" field="infr_nombres_apellidos" header="Infractor"></p-column>
+            <p-column [style]="{'width':'15%'}" field="infr_valor" header="Valor"></p-column>
+            <p-column [style]="{'width':'10%'}" field="estado_desc" header="Estado"></p-column>
+            
+            <p-column [style]="{'width':'10%'}">
+                <template let-comparendo="rowData">
+                    <!--<button class="btn btn-xs btn-primary" data-toggle="modal" data-backdrop="static" data-target="#detalle-comparendo" (click)="selectComparendo(comparendo)" 
+                        *ngIf="opcion.consulta">
+                        <span class="fa fa-bars" title="Detalle"></span>
+                    </button>-->
+
+                    <button class="btn btn-xs btn-success" data-toggle="modal" data-backdrop="static" data-target="#conductor-sustitucion" (click)="selectComparendo(comparendo)" 
+                        *ngIf="opcion.edita && comparendo.estado == 1">
+                        <span class="fa fa-exchange" title="Sustituir conductor"></span>
+                    </button>
+
+                    <button class="btn btn-xs btn-success" data-toggle="modal" data-backdrop="static" data-target="#sancionado-sustitucion" (click)="selectComparendo(comparendo)" 
+                        *ngIf="opcion.edita && comparendo.estado == 5">
+                        <span class="fa fa-exchange" title="Sustituir conductor"></span>
+                    </button>
+                </template>
+            </p-column>
+        </p-dataTable>
+
+        <!--<comparendo-detalle [comparendo]="selectedComparendo"></comparendo-detalle>-->
+        <sustitucion-conductor [comparendo]="selectedComparendo"></sustitucion-conductor>
+        <sustitucion-sancionado></sustitucion-sancionado>
+        
+        <persona-add></persona-add>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

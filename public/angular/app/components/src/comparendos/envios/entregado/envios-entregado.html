@@ -1,0 +1,91 @@
+<div class="modal fade" id="entregado-envios" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Envío entregado</h4>
+            </div>
+            
+            <div>
+                <form id="form-entregado" role="form" (ngSubmit)="insertar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="empresa_mensajeria">Empresa mensajería</label>
+                                    <select id="empresa_mensajeria" class="form-control" [(ngModel)]="notifEntregadaForm.empresa_mensajeria" required>
+                                        <option *ngFor="let empresa of empresasMensajeria" [value]="empresa.empresa_mensajeria">{{ empresa.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="numero_guia">Número guía</label>
+                                    <input type="text" id="numero_guia" class="form-control" [(ngModel)]="notifEntregadaForm.numero_guia" maxlength="30" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_entrega">Fecha entrega</label>
+                                    <input type="date" id="fecha_entrega" class="form-control" [(ngModel)]="notifEntregadaForm.fecha_entrega" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre_recibe">Nombre recibe</label>
+                                    <input type="text" id="nombre_recibe" class="form-control" [(ngModel)]="notifEntregadaForm.nombre_recibe" maxlength="255" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="observaciones">Observaciones</label>
+                                    <textarea rows="3" id="observaciones" class="form-control" [(ngModel)]="notifEntregadaForm.observaciones" 
+                                        placeholder="Ingrese una observación" maxlength="255" required>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-save"></i>
+                                <span>Aceptar</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

@@ -1,0 +1,510 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4>
+                <span>Prevalidación</span>
+                <button class="btn btn-md btn-link" [routerLink]="['PruebasPrevalidacionView']">
+                    <i class="fa fa-arrow-circle-left"></i>
+                    <span>Volver al listado</span>
+                </button>
+            </h4>
+        </div>
+
+        <div>
+            <form id="form-prevalidacion" role="form" (ngSubmit)="validarPlaca()">
+                <div class="panel-body">
+
+                    <div id="div-errores" *ngIf="errores">
+                        <div class="alert alert-danger" *ngFor="let error of errores">
+                            <span>{{ error }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Información de detección</legend>
+
+                                <div style="text-align: center;" *ngIf="deteccionForm.deteccion == null">
+                                    <span>Cargando información de detección...</span>
+                                </div>
+
+                                <div class="row" style="display: flex; align-items: flex-end;">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="placa">Placa</label>
+                                            <input type="text" id="txt-placa" class="form-control" maxlength="8" [(ngModel)]="deteccionForm.placa" (blur)="convertPlacaToUpper()"
+                                                pattern="^[A-Za-z]{3}[0-9]{3}$|^[A-Za-z]{3}(0[1-9]|[1-9][0-9])[A-Za-z]?$|^[0-9]{3}[A-Za-z]{3}$|^[Mm]([Aa]|[Ii]|[Cc])[0-9]{6}$|^[A-Za-z][0-9]{5}$"
+                                                title="Debe ingresar una placa válida." required disabled />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button type="submit" id="btn-validar-placa" class="btn btn-md btn-success" disabled>
+                                                <i class="fa fa-check"></i>
+                                                <span>Validar placa</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="fecha">Fecha</label>
+                                            <input type="date" id="fecha" class="form-control input-sm" [(ngModel)]="deteccionForm.fecha" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="hora">Hora</label>
+                                            <input type="text" id="hora" class="form-control input-sm" [(ngModel)]="deteccionForm.hora" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="fuente">Fuente</label>
+                                            <select id="fuente" class="form-control input-sm" [(ngModel)]="deteccionForm.fuente">
+                                                <option *ngFor="let fuente of fuentes" [value]="fuente.fuente">{{ fuente.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="referencia_disp">Referencia dispositivo</label>
+                                            <input type="text" id="referencia_disp" class="form-control input-sm" [(ngModel)]="deteccionForm.referencia_disp" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="direccion">Dirección</label>
+                                            <input type="text" id="direccion" class="form-control input-sm" [(ngModel)]="deteccionForm.direccion" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="complemento_direccion">Complemento dirección</label>
+                                            <input type="text" id="complemento_direccion" class="form-control input-sm" [(ngModel)]="deteccionForm.complemento_direccion" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="tipo_vehiculo">Tipo vehículo</label>
+                                            <select id="tipo_vehiculo" class="form-control input-sm" [(ngModel)]="deteccionForm.tipo_vehiculo">
+                                                <option *ngFor="let tipo of tiposVehiculo" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="color">Color</label>
+                                            <input type="text" id="color" class="form-control input-sm" [(ngModel)]="deteccionForm.color" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="servicio">Servicio</label>
+                                            <select id="servicio" class="form-control input-sm" [(ngModel)]="deteccionForm.servicio">
+                                                <option *ngFor="let servicio of servicios" [value]="servicio.parametro">{{ servicio.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="nivel">Nivel</label>
+                                            <select id="nivel" class="form-control input-sm" [(ngModel)]="deteccionForm.nivel">
+                                                <option *ngFor="let nivel of niveles" [value]="nivel.parametro">{{ nivel.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="carril">Carril</label>
+                                            <input type="text" id="carril" class="form-control input-sm" [(ngModel)]="deteccionForm.carril" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="sentido">Sentido</label>
+                                            <select id="sentido" class="form-control input-sm" [(ngModel)]="deteccionForm.sentido">
+                                                <option *ngFor="let sentido of sentidos" [value]="sentido.parametro">{{ sentido.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="velocidad">Velocidad</label>
+                                            <input type="number" id="velocidad" class="form-control input-sm" [(ngModel)]="deteccionForm.velocidad" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="unidad_velocidad">Unidad velocidad</label>
+                                            <select id="unidad_velocidad" class="form-control input-sm" [(ngModel)]="deteccionForm.unidad_velocidad">
+                                                <option *ngFor="let unidad of unidadesVelocidad" [value]="unidad.parametro">{{ unidad.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="observaciones">Observaciones</label>
+                                            <input type="text" id="observaciones" class="form-control input-sm" [(ngModel)]="deteccionForm.observaciones" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>Información de propietario</legend>
+
+                                <p-tabView (onChange)="cargarPropietario($event)">
+
+                                    <div style="text-align: center;" *ngIf="propietarios.length == 0">
+                                        <span>{{ spanInfoProp }}</span>
+                                    </div>
+
+                                    <p-tabPanel *ngFor="let propietario of propietarios" header="{{ propietario.nombres_apellidos }}">
+                                        <fieldset>
+                                            <legend>Datos personales</legend>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="tipo_doc">Tipo documento</label>
+                                                        <select id="tipo_doc" class="form-control input-sm" [(ngModel)]="propietarioForm.tipo_doc" disabled>
+                                                            <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="numero_doc">Número documento</label>
+                                                        <input type="text" id="numero_doc" class="form-control input-sm" [(ngModel)]="propietarioForm.numero_doc" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Nombre</label>
+                                                        <input type="text" id="nombre" class="form-control input-sm" [(ngModel)]="propietarioForm.nombres_apellidos" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="fuente">Fuente</label>
+                                                        <select id="fuente" class="form-control input-sm" [(ngModel)]="propietarioForm.fuente" disabled>
+                                                            <option *ngFor="let fuente of fuentes_prop" [value]="fuente.parametro">{{ fuente.nombre }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="tipo">Tipo propietario</label>
+                                                        <select id="tipo" class="form-control input-sm" [(ngModel)]="propietarioForm.tipo" disabled>
+                                                            <option *ngFor="let tipo_prop of tipos_prop" [value]="tipo_prop.parametro">{{ tipo_prop.nombre }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" *ngIf="propietario.locatario != null">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="loc_tipo_doc">Tipo doc. locatario</label>
+                                                        <select id="loc_tipo_doc" class="form-control input-sm" [(ngModel)]="propietarioForm.loc_tipo_doc" disabled>
+                                                            <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="loc_numero_doc">Número doc. locatario</label>
+                                                        <input type="text" id="loc_numero_doc" class="form-control input-sm" [(ngModel)]="propietarioForm.loc_numero_doc" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" *ngIf="propietario.locatario != null">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="loc_nombres_apellidos">Nombre locatario</label>
+                                                        <input type="text" id="loc_nombres_apellidos" class="form-control input-sm" [(ngModel)]="propietarioForm.loc_nombres_apellidos" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="desde">Fecha inicial</label>
+                                                        <input type="text" id="desde" class="form-control input-sm" [(ngModel)]="propietarioForm.desde" disabled />
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="hasta">Fecha final</label>
+                                                        <input type="text" id="hasta" class="form-control input-sm" [(ngModel)]="propietarioForm.hasta" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset>
+                                            <legend>Dirección</legend>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="departamento">Departamento</label>
+                                                        <input type="text" id="departamento" class="form-control input-sm" [(ngModel)]="propietarioForm.dir_departamento" disabled />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="municipio">Municipio</label>
+                                                        <input type="text" id="municipio" class="form-control input-sm" [(ngModel)]="propietarioForm.dir_municipio" disabled />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="poblado">Poblado</label>
+                                                        <input type="text" id="poblado" class="form-control input-sm" [(ngModel)]="propietarioForm.dir_poblado" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="descripcion">Dirección</label>
+                                                        <textarea rows="2" id="descripcion" class="form-control input-sm" [(ngModel)]="propietarioForm.dir_descripcion" disabled>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </p-tabPanel>
+
+                                </p-tabView>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Evidencias</legend>
+                                
+                                <div style="text-align: center;" *ngIf="evidencias.length == 0">
+                                    <span>Cargando evidencias...</span>
+                                </div>
+
+                                <div id="div-evidencia" class="row" style="display: none;">
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <img id="img-evidencia" width="100%" height="400px" src="" />
+                                            <video id="video-evidencia" width="100%" height="400px" controls src=""></video>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="height: 400px; overflow: auto;">
+                                            <ul class="list-group">
+                                                <li *ngFor="let evidencia of evidencias" class="list-group-item" style="cursor: pointer;" (click)="visualizarEvidencia(evidencia)">
+                                                    <img *ngIf="evidencia.tipo_archivo == '1'" id="img-miniatura" width="100%" height="100px"
+                                                        src="data:image/jpg; base64, {{ evidencia.array_bytes }}" />
+                                                    <video *ngIf="evidencia.tipo_archivo == '2'" id="video-miniatura" width="100%" heigth="100px"
+                                                        src="data:video/mp4; base64, {{ evidencia.array_bytes }}"></video>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <fieldset>
+                                    <legend>Añadir nueva evidencia</legend>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="file" accept="image/jpeg,image/png,video/mp4,video/avi" id="input-evidencia-add" class="form-control" 
+                                                    ng2FileSelect [uploader]="uploader" multiple />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-md btn-danger" (click)="resetEvidencias()" [disabled]="!uploader.queue.length">
+                                                    <i class="fa fa-times"></i>
+                                                    <span>Borrar lista</span>
+                                                </button>
+                                                <button type="button" class="btn btn-md btn-primary" (click)="insertEvidencias()" [disabled]="!uploader.queue.length">
+                                                    <i class="fa fa-upload"></i>
+                                                    <span>Subir evidencias</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div style="height: 200px; overflow: auto;">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th class="col-md-6">Nombre</th>
+                                                <th class="col-md-2">Tamaño (KB)</th>
+                                                <th class="col-md-2">Tipo</th>
+                                                <th class="col-md-2">Opciones</th>
+                                            </tr>
+
+                                            <tr *ngFor="let item of uploader.queue">
+                                                <td>{{ item?.file?.name }}</td>
+                                                <td>{{ item?.file?.size/1024 | number:'.0' }} KB</td>
+                                                <td>{{ 
+                                                    item?.file?.type == 'image/jpeg' || item?.file?.type == 'image/png' 
+                                                        ? 'Imagen' 
+                                                    : item?.file?.type == 'video/mp4' || item?.file?.type == 'video/avi' 
+                                                        ? 'Video' 
+                                                    : 
+                                                        'Archivo inválido'
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-xs" (click)="borrarEvidencia(item)">
+                                                        <span class="fa fa-times"></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>
+                                    <span>Infracciones</span>
+                                    <button type="button" class="btn btn-md btn-link" data-toggle="modal" data-backdrop="static" data-target="#add-infra-deteccion" *ngIf="opcion.adiciona">
+                                        <i class="fa fa-plus"></i>
+                                        <span>Adicionar</span>
+                                    </button>
+                                </legend>
+
+                                <div style="text-align: center;" *ngIf="infraDetecciones.length == 0">
+                                    <span>Cargando infracciones...</span>
+                                </div>
+
+                                <div style="height: 200px; overflow: auto;">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th class="col-md-1">Código</th>
+                                            <th class="col-md-4">Nombre</th>
+                                            <th class="col-md-5">Observación</th>
+                                            <th class="col-md-1">Opciones</th>
+                                        </tr>
+                                        <tr class="list-group" *ngFor="let infraDeteccion of infraDetecciones">
+                                            <td>{{ infraDeteccion.codigo }}</td>
+                                            <td>{{ infraDeteccion.nombre_corto }}</td>
+                                            <td>{{ infraDeteccion.observacion }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-backdrop="static" 
+                                                    data-target="#delete-infra-deteccion" (click)="selectInfraDeteccion(infraDeteccion)" *ngIf="opcion.elimina">
+                                                    <span class="fa fa-times" title="Eliminar"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>Observaciones</legend>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea rows="4" id="segui-observaciones" class="form-control" [(ngModel)]="deteccionSeguimientoForm.observaciones" maxlength="255">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" id="btn-validar" class="btn btn-md btn-success" (click)="validar()">
+                            <i class="fa fa-check"></i>
+                            <span>Prevalidar</span>
+                        </button>
+
+                        <button type="button" id="btn-guardar" class="btn btn-md btn-primary" (click)="guardar()">
+                            <i class="fa fa-floppy-o"></i>
+                            <span>Guardar</span>
+                        </button>
+
+                        <button type="button" id="btn-descartar" class="btn btn-md btn-danger" data-toggle="modal" data-backdrop="static" data-target="#descarte-prevalidacion">
+                            <i class="fa fa-times"></i>
+                            <span>Descartar</span>
+                        </button>                        
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <prevalidacion-placa [evidencia]="selectedEvidencia" [placa]="deteccionForm.placa"></prevalidacion-placa>
+        <prevalidacion-confirm [deteccion]="deteccionForm" [deteccionSeguimiento]="deteccionSeguimientoForm"></prevalidacion-confirm>
+        <prevalidacion-descarte [deteccion]="deteccionForm" [deteccionSeguimiento]="deteccionSeguimientoForm"></prevalidacion-descarte>
+
+        <infra-deteccion-add [deteccion]="deteccionForm"></infra-deteccion-add>
+        <infra-deteccion-delete [infra-deteccion]="selectedInfraDeteccion"></infra-deteccion-delete>
+
+        <input type="button" id="btn-load-validacion" (click)="verificarValidacionPlaca()" hidden />
+        <input type="button" id="btn-load-evidencias" (click)="getEvidencias()" hidden />
+        <input type="button" id="btn-load-infra-detecciones" (click)="getInfraDetecciones()" hidden />
+        <input type="button" id="btn-reset-formulario" (click)="resetFormulario()" hidden />
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<div id="evid-array-bytes-add" hidden></div>
+<input type="button" id="btn-load-evidencia-add" (click)="cargarEvidencia()" hidden />
+<input type="hidden" id="is-valid-placa" [value]="false" />
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

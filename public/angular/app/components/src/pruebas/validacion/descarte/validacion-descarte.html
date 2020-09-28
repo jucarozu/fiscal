@@ -1,0 +1,68 @@
+<div class="modal fade" id="descarte-validacion" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Descartar detección</h4>
+            </div>
+            
+            <div>
+                <form id="form-descarte" role="form" (ngSubmit)="descartar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="codigo">Motivo</label>
+                                    <select id="motivo" class="form-control" [(ngModel)]="deteccionDescarteForm.motivo" required>
+                                        <option *ngFor="let motivo of motivos" [value]="motivo.parametro">{{ motivo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="observacion">Observaciones</label>
+                                    <textarea rows="3" id="observacion" class="form-control" [(ngModel)]="deteccionSeguimientoForm.observaciones" 
+                                        placeholder="Ingrese una observación" maxlength="255" required>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-primary">
+                                <i class="fa fa-trash-o"></i>
+                                <span>Descartar</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

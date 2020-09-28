@@ -1,0 +1,455 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4>
+                <span>Validación</span>
+                <button class="btn btn-md btn-link" [routerLink]="['PruebasValidacionView']">
+                    <i class="fa fa-arrow-circle-left"></i>
+                    <span>Volver al listado</span>
+                </button>
+            </h4>
+        </div>
+
+        <div>
+            <form id="form-validacion" role="form" (ngSubmit)="procesarValidacion()">
+                <div class="panel-body">
+
+                    <div id="div-errores" *ngIf="errores">
+                        <div class="alert alert-danger" *ngFor="let error of errores">
+                            <span>{{ error }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Información de detección</legend>
+
+                                <div style="text-align: center;" *ngIf="deteccionForm.deteccion == null">
+                                    <span>Cargando información de detección...</span>
+                                </div>
+
+                                <div class="row" style="display: flex; align-items: flex-end;">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="placa">Placa</label>
+                                            <input type="text" id="placa" class="form-control input-sm" [(ngModel)]="deteccionForm.placa" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="fecha">Fecha</label>
+                                            <input type="date" id="fecha" class="form-control input-sm" [(ngModel)]="deteccionForm.fecha" disabled />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="hora">Hora</label>
+                                            <input type="text" id="hora" class="form-control input-sm" [(ngModel)]="deteccionForm.hora" disabled />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="fuente">Fuente</label>
+                                            <select id="fuente" class="form-control input-sm" [(ngModel)]="deteccionForm.fuente" disabled>
+                                                <option *ngFor="let fuente of fuentes" [value]="fuente.fuente">{{ fuente.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="referencia_disp">Referencia dispositivo</label>
+                                            <input type="text" id="referencia_disp" class="form-control input-sm" [(ngModel)]="deteccionForm.referencia_disp" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="direccion">Dirección</label>
+                                            <input type="text" id="direccion" class="form-control input-sm" [(ngModel)]="deteccionForm.direccion" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="complemento_direccion">Complemento dirección</label>
+                                            <input type="text" id="complemento_direccion" class="form-control input-sm" [(ngModel)]="deteccionForm.complemento_direccion" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="tipo_vehiculo">Tipo vehículo</label>
+                                            <select id="tipo_vehiculo" class="form-control input-sm" [(ngModel)]="deteccionForm.tipo_vehiculo" disabled>
+                                                <option *ngFor="let tipo of tiposVehiculo" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="color">Color</label>
+                                            <input type="text" id="color" class="form-control input-sm" [(ngModel)]="deteccionForm.color" disabled />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="servicio">Servicio</label>
+                                            <select id="servicio" class="form-control input-sm" [(ngModel)]="deteccionForm.servicio" disabled>
+                                                <option *ngFor="let servicio of servicios" [value]="servicio.parametro">{{ servicio.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="nivel">Nivel</label>
+                                            <select id="nivel" class="form-control input-sm" [(ngModel)]="deteccionForm.nivel" disabled>
+                                                <option *ngFor="let nivel of niveles" [value]="nivel.parametro">{{ nivel.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="carril">Carril</label>
+                                            <input type="text" id="carril" class="form-control input-sm" [(ngModel)]="deteccionForm.carril" disabled />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="sentido">Sentido</label>
+                                            <select id="sentido" class="form-control input-sm" [(ngModel)]="deteccionForm.sentido" disabled>
+                                                <option *ngFor="let sentido of sentidos" [value]="sentido.parametro">{{ sentido.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="velocidad">Velocidad</label>
+                                            <input type="number" id="velocidad" class="form-control input-sm" [(ngModel)]="deteccionForm.velocidad" disabled />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="unidad_velocidad">Unidad velocidad</label>
+                                            <select id="unidad_velocidad" class="form-control input-sm" [(ngModel)]="deteccionForm.unidad_velocidad" disabled>
+                                                <option *ngFor="let unidad of unidadesVelocidad" [value]="unidad.parametro">{{ unidad.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="observaciones">Observaciones</label>
+                                            <input type="text" id="observaciones" class="form-control input-sm" [(ngModel)]="deteccionForm.observaciones" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>Información de propietario</legend>
+
+                                <p-tabView (onChange)="cargarPropietario($event)">
+
+                                    <div style="text-align: center;" *ngIf="propietarios.length == 0">
+                                        <span>Cargando información de propietario...</span>
+                                    </div>
+
+                                    <p-tabPanel *ngFor="let propietario of propietarios" header="{{ propietario.nombres_apellidos }}">
+                                        <fieldset>
+                                            <legend>Datos personales</legend>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="tipo_doc">Tipo documento</label>
+                                                        <select id="tipo_doc" class="form-control input-sm" [(ngModel)]="propietarioForm.tipo_doc" disabled>
+                                                            <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="numero_doc">Número documento</label>
+                                                        <input type="text" id="numero_doc" class="form-control input-sm" [(ngModel)]="propietarioForm.numero_doc" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="nombre">Nombre</label>
+                                                        <input type="text" id="nombre" class="form-control input-sm" [(ngModel)]="propietarioForm.nombres_apellidos" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="fuente">Fuente</label>
+                                                        <select id="fuente" class="form-control input-sm" [(ngModel)]="propietarioForm.fuente" disabled>
+                                                            <option *ngFor="let fuente of fuentes_prop" [value]="fuente.parametro">{{ fuente.nombre }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="tipo">Tipo propietario</label>
+                                                        <select id="tipo" class="form-control input-sm" [(ngModel)]="propietarioForm.tipo" disabled>
+                                                            <option *ngFor="let tipo_prop of tipos_prop" [value]="tipo_prop.parametro">{{ tipo_prop.nombre }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" *ngIf="propietario.locatario != null">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="loc_tipo_doc">Tipo doc. locatario</label>
+                                                        <select id="loc_tipo_doc" class="form-control input-sm" [(ngModel)]="propietarioForm.loc_tipo_doc" disabled>
+                                                            <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="loc_numero_doc">Número doc. locatario</label>
+                                                        <input type="text" id="loc_numero_doc" class="form-control input-sm" [(ngModel)]="propietarioForm.loc_numero_doc" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" *ngIf="propietario.locatario != null">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="loc_nombres_apellidos">Nombre locatario</label>
+                                                        <input type="text" id="loc_nombres_apellidos" class="form-control input-sm" [(ngModel)]="propietarioForm.loc_nombres_apellidos" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="desde">Fecha inicial</label>
+                                                        <input type="text" id="desde" class="form-control input-sm" [(ngModel)]="propietarioForm.desde" disabled />
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="hasta">Fecha final</label>
+                                                        <input type="text" id="hasta" class="form-control input-sm" [(ngModel)]="propietarioForm.hasta" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset>
+                                            <legend>Dirección</legend>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="departamento">Departamento</label>
+                                                        <input type="text" id="departamento" class="form-control input-sm" [(ngModel)]="propietarioForm.dir_departamento" disabled />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="municipio">Municipio</label>
+                                                        <input type="text" id="municipio" class="form-control input-sm" [(ngModel)]="propietarioForm.dir_municipio" disabled />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="poblado">Poblado</label>
+                                                        <input type="text" id="poblado" class="form-control input-sm" [(ngModel)]="propietarioForm.dir_poblado" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="descripcion">Dirección</label>
+                                                        <textarea rows="2" id="descripcion" class="form-control input-sm" [(ngModel)]="propietarioForm.dir_descripcion" disabled>
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </p-tabPanel>
+
+                                </p-tabView>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Evidencias</legend>
+
+                                <div style="text-align: center;" *ngIf="evidencias.length == 0">
+                                    <span>Cargando evidencias...</span>
+                                </div>
+                                
+                                <div style="height: 450px;">
+                                    <div id="div-evidencia" class="row" style="display: none;">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <img id="img-evidencia" width="100%" height="400px" src="" />
+                                                <video id="video-evidencia" width="100%" height="400px" controls src=""></video>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group" style="height: 400px; overflow: auto;">
+                                                <ul class="list-group">
+                                                    <li *ngFor="let evidencia of evidencias" class="list-group-item" style="cursor: pointer;" (click)="visualizarEvidencia(evidencia)">
+                                                        <img *ngIf="evidencia.tipo_archivo == '1'" id="img-miniatura" width="100%" height="100px"
+                                                            src="data:image/jpg; base64, {{ evidencia.array_bytes }}" />
+                                                        <video *ngIf="evidencia.tipo_archivo == '2'" id="video-miniatura" width="100%" heigth="100px"
+                                                            src="data:video/mp4; base64, {{ evidencia.array_bytes }}"></video>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>
+                                    <span>Infracciones</span>
+                                    <button type="button" class="btn btn-md btn-link" data-toggle="modal" data-backdrop="static" data-target="#add-infra-deteccion" 
+                                        *ngIf="opcion.adiciona && infraDeteccionValidacion.valor == 1">
+                                        <i class="fa fa-plus"></i>
+                                        <span>Adicionar</span>
+                                    </button>
+                                </legend>
+
+                                <div style="text-align: center;" *ngIf="infraDetecciones.length == 0">
+                                    <span>Cargando infracciones...</span>
+                                </div>
+
+                                <div style="height: 350px;">
+                                    <div *ngIf="getInfraccionesValidadas().length == 0">
+                                        <div class="alert alert-warning">
+                                            <span>
+                                                No se ha seleccionado ninguna infracción para validar, por lo tanto la detección será descartada. 
+                                                Seleccione el motivo de rechazo de cada infracción.
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="getInfraccionesValidadas().length > 0 && getInfraccionesValidadas().length < infraDetecciones.length">
+                                        <div class="alert alert-warning">
+                                            <span>
+                                                Existen infracciones rechazadas en la detección. Seleccione el motivo de rechazo de cada infracción.
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div style="height: 200px; overflow: auto;">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th class="col-md-1"></th>
+                                                <th class="col-md-1">Código</th>
+                                                <th class="col-md-4">Nombre</th>
+                                                <th class="col-md-3">Observación</th>
+                                                <th class="col-md-3">Motivo rechazo</th>
+                                            </tr>
+                                            <tr class="list-group" *ngFor="let infraDeteccion of infraDetecciones">
+                                                <td>
+                                                    <input type="checkbox" [(ngModel)]="infraDeteccion.tiene_infraccion" (change)="infraDeteccion.motivo = null" 
+                                                        [checked]="infraDeteccion.tiene_infraccion == true" />
+                                                </td>
+                                                <td>{{ infraDeteccion.codigo }}</td>
+                                                <td>{{ infraDeteccion.nombre_corto }}</td>
+                                                <td>{{ infraDeteccion.observacion }}</td>
+                                                <td>
+                                                    <select id="motivo" class="form-control input-sm" [(ngModel)]="infraDeteccion.motivo" *ngIf="infraDeteccion.tiene_infraccion == false" required>
+                                                        <option *ngFor="let motivo of motivos" [value]="motivo.parametro">{{ motivo.nombre }}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>Observaciones</legend>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea rows="4" id="segui-observaciones" class="form-control" [(ngModel)]="deteccionSeguimientoForm.observaciones" maxlength="255">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="submit" id="btn-validar" class="btn btn-md btn-success">
+                            <i class="fa fa-check"></i>
+                            <span>Validar detección</span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <validacion-confirm [deteccion]="deteccionForm" [deteccionSeguimiento]="deteccionSeguimientoForm" [propietario]="propietarioForm" 
+            [infraccionesValidadas]="getInfraccionesValidadas()" [infraccionesNoValidadas]="getInfraccionesNoValidadas()"></validacion-confirm>
+
+        <validacion-descarte [deteccion]="deteccionForm" [deteccionSeguimiento]="deteccionSeguimientoForm" 
+            [infraccionesNoValidadas]="getInfraccionesNoValidadas()"></validacion-descarte>
+
+        <infra-deteccion-add [deteccion]="deteccionForm"></infra-deteccion-add>
+
+        <input type="button" id="btn-load-infra-detecciones" (click)="getInfraDetecciones()" hidden />
+        <input type="button" id="btn-reset-formulario" (click)="resetFormulario()" hidden />
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

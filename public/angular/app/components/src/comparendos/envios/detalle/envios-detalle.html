@@ -1,0 +1,264 @@
+<div class="modal fade" id="detalle-envios" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Detalle notificación</h4>
+            </div>
+            
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notificacion">Id notificación</label>
+                            <input type="text" id="notificacion" class="form-control input-sm" [(ngModel)]="notificacionForm.notificacion" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_medio">Medio</label>
+                            <input type="text" id="notif_medio" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_medio_desc" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_tipo">Tipo</label>
+                            <input type="text" id="notif_tipo" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_tipo_desc" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_fecha">Fecha</label>
+                            <input type="date" id="notif_fecha" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_fecha" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_nombres_apellidos">Persona</label>
+                            <input type="text" id="notif_nombres_apellidos" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_nombres_apellidos" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_referencia">Referencia</label>
+                            <input type="text" id="notif_referencia" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_referencia" disabled />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_estado">Estado</label>
+                            <input type="text" id="notif_tipo" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_estado_desc" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_fecha_desde">Desde</label>
+                            <input type="date" id="notif_fecha_desde" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_fecha_desde" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_fecha_hasta">Hasta</label>
+                            <input type="date" id="notif_fecha_hasta" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_fecha_hasta" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_motivo_rechazo">Motivo rechazo</label>
+                            <input type="text" id="notif_tipo" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_motivo_rechazo_desc" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notif_usuario">Usuario</label>
+                            <input type="text" id="notif_usuario" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_usuario_desc" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notimasiva">Id notif. masiva</label>
+                            <input type="text" id="notimasiva" class="form-control input-sm" [(ngModel)]="notificacionForm.notimasiva" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="notif_observaciones">Observaciones</label>
+                            <textarea rows="2" id="notif_observaciones" class="form-control input-sm" [(ngModel)]="notificacionForm.notif_observaciones" disabled>
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="notifEntregadas">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Datos de entrega</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <p-dataTable [value]="notifEntregadas" [rows]="1" [responsive]="true">
+                            <p-column [style]="{'width':'15%'}" field="empresa_mensajeria_desc" header="Empresa mensajería"></p-column>
+                            <p-column [style]="{'width':'15%'}" field="numero_guia" header="Número guía"></p-column>
+                            <p-column [style]="{'width':'15%'}" field="fecha_entrega" header="Fecha entrega"></p-column>
+                            <p-column [style]="{'width':'20%'}" field="nombre_recibe" header="Nombre recibe"></p-column>
+                            <p-column [style]="{'width':'35%'}" field="observaciones" header="Observaciones"></p-column>
+                        </p-dataTable>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="notifDevueltas">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Datos de devolución</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <p-dataTable [value]="notifDevueltas" [rows]="1" [responsive]="true">
+                            <p-column [style]="{'width':'15%'}" field="empresa_mensajeria_desc" header="Empresa mensajería"></p-column>
+                            <p-column [style]="{'width':'15%'}" field="numero_guia" header="Número guía"></p-column>
+                            <p-column [style]="{'width':'15%'}" field="fecha_novedad" header="Fecha novedad"></p-column>
+                            <p-column [style]="{'width':'20%'}" field="causal_devolucion_desc" header="Causal devolución"></p-column>
+                            <p-column [style]="{'width':'35%'}" field="observaciones" header="Observaciones"></p-column>
+                        </p-dataTable>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="notifDescartadas">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Datos de descarte</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <p-dataTable [value]="notifDescartadas" [rows]="1" [responsive]="true">
+                            <p-column [style]="{'width':'15%'}" field="empresa_mensajeria_desc" header="Empresa mensajería"></p-column>
+                            <p-column [style]="{'width':'15%'}" field="fecha_descarte" header="Fecha descarte"></p-column>
+                            <p-column [style]="{'width':'20%'}" field="causal_descarte_desc" header="Causal descarte"></p-column>
+                            <p-column [style]="{'width':'35%'}" field="observaciones" header="Observaciones"></p-column>
+                        </p-dataTable>
+                    </div>
+                </div>
+
+                <!--<div class="row" *ngIf="notifColas">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Datos de cola</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <p-dataTable [value]="notifColas" [rows]="1" [responsive]="true">
+                            <p-column [style]="{'width':'15%'}" field="medio_desc" header="Medio"></p-column>
+                            <p-column [style]="{'width':'15%'}" field="tipo_desc" header="Tipo"></p-column>
+                            <p-column [style]="{'width':'10%'}" field="fecha" header="Fecha"></p-column>
+                            <p-column [style]="{'width':'10%'}" field="estado_desc" header="Estado"></p-column>
+                            <p-column [style]="{'width':'10%'}" field="fecha_desde" header="Desde"></p-column>
+                            <p-column [style]="{'width':'10%'}" field="fecha_hasta" header="Hasta"></p-column>
+                            <p-column [style]="{'width':'30%'}" field="observaciones" header="Observaciones"></p-column>
+                        </p-dataTable>
+                    </div>
+                </div>-->
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Registro de seguimiento</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <p-dataTable [value]="notifSeguimientos" [rows]="10" [paginator]="true" [responsive]="true">
+                            <p-column [style]="{'width':'20%'}" field="fecha" header="Fecha"></p-column>
+                            <p-column [style]="{'width':'20%'}" field="estado_desc" header="Estado"></p-column>
+                            <p-column [style]="{'width':'25%'}" field="usuario_desc" header="Usuario"></p-column>
+                            <p-column [style]="{'width':'35%'}" field="observaciones" header="Observaciones"></p-column>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" id="btn-entregado" class="btn btn-md btn-success" data-toggle="modal" data-backdrop="static" data-target="#entregado-envios" (click)="close()" 
+                        *ngIf="opcion.ejecuta && notificacionForm.notif_medio == 1 && notificacionForm.notif_estado == 2">
+                        <i class="fa fa-check"></i>
+                        <span>Envío entregado</span>
+                    </button>
+
+                    <button type="button" id="btn-devuelto" class="btn btn-md btn-info" data-toggle="modal" data-backdrop="static" data-target="#devuelto-envios" (click)="close()" 
+                        *ngIf="opcion.ejecuta && notificacionForm.notif_medio == 1 && notificacionForm.notif_estado == 2">
+                        <i class="fa fa-arrow-left"></i>
+                        <span>Envío devuelto</span>
+                    </button>
+
+                    <button type="button" id="btn-descartar" class="btn btn-md btn-warning" data-toggle="modal" data-backdrop="static" data-target="#descarte-envios" (click)="close()" 
+                        *ngIf="opcion.ejecuta && notificacionForm.notif_medio == 1 && notificacionForm.notif_estado == 2">
+                        <i class="fa fa-ban"></i>
+                        <span>Descartar</span>
+                    </button>
+
+                    <button type="button" id="btn-anular" class="btn btn-md btn-danger" data-toggle="modal" data-backdrop="static" data-target="#anular-envios" (click)="close()" 
+                        *ngIf="opcion.elimina && notificacionForm.notif_estado != 10">
+                        <i class="fa fa-times"></i>
+                        <span>Anular</span>
+                    </button>
+
+                    <button type="button" id="btn-cola" class="btn btn-md btn-primary" data-toggle="modal" data-backdrop="static" data-target="#cola-envios" (click)="close()" 
+                        *ngIf="opcion.ejecuta && notificacionForm.notif_medio == 1 &&
+                               (notificacionForm.notif_estado == 2 || notificacionForm.notif_estado == 4 || notificacionForm.notif_estado == 5 || notificacionForm.notif_estado == 10)">
+                        <i class="fa fa-history"></i>
+                        <span>Poner en cola</span>
+                    </button>
+
+                    <button type="button" id="btn-fijar" class="btn btn-md btn-info" data-toggle="modal" data-backdrop="static" data-target="#fijar-envios" (click)="close()" 
+                        *ngIf="opcion.ejecuta && notificacionForm.notif_medio == 2 && notificacionForm.notif_estado == 1">
+                        <i class="fa fa-arrow-up"></i>
+                        <span>Fijar aviso</span>
+                    </button>
+
+                    <button type="button" id="btn-desfijar" class="btn btn-md btn-warning" data-toggle="modal" data-backdrop="static" data-target="#desfijar-envios" (click)="close()" 
+                        *ngIf="opcion.ejecuta && notificacionForm.notif_medio == 2 && notificacionForm.notif_estado == 6">
+                        <i class="fa fa-arrow-down"></i>
+                        <span>Desfijar aviso</span>
+                    </button>
+                    
+                    <button type="button" id="btn-cerrar" class="btn btn-md btn-default" (click)="close()">
+                        <i class="fa fa-sign-out"></i>
+                        <span>Cerrar</span>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="loading()">
+                <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+            </div>
+
+            <input type="button" id="btn-get-detalles" (click)="getNotifDetalles()" hidden />
+
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

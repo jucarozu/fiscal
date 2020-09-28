@@ -1,0 +1,56 @@
+<div class="modal fade" id="detail-rol" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Detalle rol</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" class="form-control" [(ngModel)]="rolForm.nombre" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea rows="3" id="descripcion" class="form-control" [(ngModel)]="rolForm.descripcion" disabled></textarea>
+                </div>
+
+                <div style="height: 250px; overflow: auto;">
+                    <table class="table table-striped">
+                        <label for="permisos">Permisos</label>
+                        <tr>
+                            <th>Módulo - Opción</th>
+                            <th><span class="fa fa-search" title="Consultar"></span></th>
+                            <th><span class="fa fa-plus" title="Adicionar"></span></th>
+                            <th><span class="fa fa-pencil" title="Editar"></span></th>
+                            <th><span class="fa fa-close" title="Eliminar"></span></th>
+                            <th><span class="fa fa-play" title="Ejecutar procesos"></span></th>
+                        </tr>
+                        <tr class="list-group" *ngFor="let opcion of rolForm.opciones">
+                            <td>{{ opcion.modulo_nombre + " - " + opcion.opcion_nombre }}</td>
+                            <td><input type="checkbox" disabled [(ngModel)]="opcion.consulta" /></td>
+                            <td><input type="checkbox" disabled [(ngModel)]="opcion.adiciona" /></td>
+                            <td><input type="checkbox" disabled [(ngModel)]="opcion.edita" /></td>
+                            <td><input type="checkbox" disabled [(ngModel)]="opcion.elimina" /></td>
+                            <td><input type="checkbox" disabled [(ngModel)]="opcion.ejecuta" /></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-md btn-danger" data-dismiss="modal">
+                        <i class="fa fa-sign-out"></i>
+                        <span>Cerrar</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+#contenedor {
+    border-color: black;
+    border-width: thick;
+    font-size: 40px;
+    margin: 1em;
+    text-align: right;
+}

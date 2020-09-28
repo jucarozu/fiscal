@@ -1,0 +1,133 @@
+<div class="modal fade" id="placa-prevalidacion" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar" (click)="cerrarVentana()">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Validación de placa</h4>
+            </div>
+            
+            <div>
+                <form id="form-crop" role="form" (ngSubmit)="compararPlacas()">
+                    <div class="modal-body">
+                        
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <img *ngIf="evidenciaForm.tipo_archivo == '1'" id="img-evidencia-placa" src="" width="600" height="400" />
+                                <!--<video *ngIf="evidenciaForm.tipo_archivo == '2'" id="video-evidencia-placa" src="" width="240" heigth="240" controls></video>-->
+                                <video *ngIf="evidenciaForm.tipo_archivo == '2'" id="video-evidencia-placa" src="" width="600" heigth="400" controls></video>
+                            </div>
+                            <div class="col-md-4">
+                                <div *ngIf="evidenciaForm.tipo_archivo == '1'" 
+                                    style="float: left; position: relative; overflow: hidden; margin-bottom: 20px; width: 300px; height: 200px;">
+                                    <img id="img-miniatura-placa" src="" width="300" height="200" />
+                                </div>
+                                
+                                <!--<div *ngIf="evidenciaForm.tipo_archivo == '2'" 
+                                    style="float: left; position: relative; overflow: hidden; margin-bottom: 20px; width: 160px; height: 90px;">
+                                    <video id="video-miniatura-placa" src="" width="120" height="120"></video>
+                                </div>-->
+                                <div *ngIf="evidenciaForm.tipo_archivo == '2'" 
+                                    style="float: left; position: relative; overflow: hidden; margin-bottom: 20px; width: 300px; height: 200px;">
+                                    <video id="video-miniatura-placa" src="" width="300" height="200"></video>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="placa">Placa vehículo</label>
+                                            <input type="text" id="placa" class="form-control" [(ngModel)]="placa" disabled />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="placa_confirm">Confirme la placa</label>
+                                            <input type="text" id="placa_confirm" class="form-control" maxlength="8" [(ngModel)]="placa_confirm" (blur)="convertPlacaToUpper()"
+                                                pattern="^[A-Za-z]{3}[0-9]{3}$|^[A-Za-z]{3}(0[1-9]|[1-9][0-9])[A-Za-z]?$|^[0-9]{3}[A-Za-z]{3}$|^[Mm]([Aa]|[Ii]|[Cc])[0-9]{6}$|^[A-Za-z][0-9]{5}$"
+                                                title="Debe ingresar una placa válida." autofocus required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" id="is_video" name="is_video" [value]="evidenciaForm.tipo_archivo == '2'" />
+                                <input type="hidden" id="time" name="time" [(ngModel)]="cropForm.time" [value]="0" />
+                                <input type="hidden" id="x1" name="x1" [(ngModel)]="cropForm.x1" [value]="0" />
+                                <input type="hidden" id="y1" name="y1" [(ngModel)]="cropForm.y1" [value]="0" />
+                                <input type="hidden" id="width" name="width" [(ngModel)]="cropForm.width" [value]="0" />
+                                <input type="hidden" id="height" name="height" [(ngModel)]="cropForm.height" [value]="0" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-floppy-o"></i>
+                                <span>Aceptar</span>
+                            </button>
+                            
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" data-dismiss="modal" (click)="cerrarVentana()">
+                                <i class="fa fa-times"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="placa-confirm" class="modal fade" role="dialog" style="position: relative; z-index: 100;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" aria-label="Cerrar" (click)="cerrarVentanaConfirm()">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title">Confirmar validación</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p>La placa ingresada no coincide con la placa asociada a la detección. ¿Desea continuar?</p>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <div class="form-group">
+                                        <button type="button" id="btn-aceptar-confirm" class="btn btn-md btn-success" (click)="confirmarValidacionPlaca()">
+                                            <i class="fa fa-check"></i>
+                                            <span>Confirmar</span>
+                                        </button>
+                                        
+                                        <button type="button" id="btn-cancelar-confirm" class="btn btn-md btn-danger" (click)="cerrarVentanaConfirm()">
+                                            <i class="fa fa-times"></i>
+                                            <span>Cancelar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                    <input type="button" id="btn-load-evidencia-placa" (click)="cargarEvidencia()" hidden />
+                    <input type="button" id="btn-insertar" (click)="insertar()" hidden />
+
+                    <input type="hidden" id="is-confirm-placa" [value]="false" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

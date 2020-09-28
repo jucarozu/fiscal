@@ -1,0 +1,120 @@
+<div class="modal fade" id="add-interes" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Adicionar interés de mora</h4>
+            </div>
+            
+            <div>
+                <form id="form-interes" role="form" (ngSubmit)="insertar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="resolucion">Nro. resolución</label>
+                                    <input type="text" id="resolucion" class="form-control" [(ngModel)]="interesForm.resolucion" required />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fecha_resolucion">Fecha resolución</label>
+                                    <input type="date" id="fecha_resolucion" class="form-control" [(ngModel)]="interesForm.fecha_resolucion" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ent_tipo_doc">Tipo doc. entidad</label>
+                                    <select id="ent_tipo_doc" class="form-control" [(ngModel)]="interesForm.ent_tipo_doc" (blur)="getPersonaByDocumento()" required>
+                                        <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ent_numero_doc">Número doc. entidad</label>
+                                    <input type="text" id="ent_numero_doc" class="form-control" placeholder="Ingrese número de documento" maxlength="20"
+                                        [(ngModel)]="interesForm.ent_numero_doc" (blur)="getPersonaByDocumento()" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ent_nombre">Entidad</label>
+                                    <input type="text" id="ent_nombre" class="form-control" [(ngModel)]="interesForm.ent_nombre" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="desde">Fecha inicial</label>
+                                    <input type="date" id="desde" class="form-control" [(ngModel)]="interesForm.desde" required />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="hasta">Fecha final</label>
+                                    <input type="date" id="hasta" class="form-control" [(ngModel)]="interesForm.hasta" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tasa">Tasa</label>
+                                    <input type="number" id="tasa" class="form-control" [(ngModel)]="interesForm.tasa" step="0.01" min="0" max="99.99" required />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-floppy-o"></i>
+                                <span>Aceptar</span>
+                            </button>
+                            
+                            <button type="button" id="btn-limpiar" class="btn btn-md btn-primary" (click)="resetFormulario()">
+                                <i class="fa fa-undo"></i>
+                                <span>Resetear</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                    <input type="button" id="btn-load-persona" (click)="cargarPersona()" hidden />
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

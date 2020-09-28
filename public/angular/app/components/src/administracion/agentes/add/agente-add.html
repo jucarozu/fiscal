@@ -1,0 +1,126 @@
+<div class="modal fade" id="add-agente" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Adicionar agente de tránsito</h4>
+            </div>
+            
+            <div>
+                <form id="form-agente" role="form" (ngSubmit)="insertar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tipo_doc">Tipo documento</label>
+                                    <select id="tipo_doc" class="form-control" [(ngModel)]="agenteForm.tipo_doc" (blur)="getPersonaByDocumento()" required>
+                                        <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="numero_doc">Número documento</label>
+                                    <input type="text" id="numero_doc" class="form-control" placeholder="Ingrese número de documento" maxlength="20"
+                                        [(ngModel)]="agenteForm.numero_doc" (blur)="getPersonaByDocumento()" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" class="form-control" [(ngModel)]="agenteForm.nombres_apellidos" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="entidad">Entidad</label>
+                                    <select id="entidad" class="form-control" [(ngModel)]="agenteForm.entidad" required>
+                                        <option *ngFor="let entidad of entidades" [value]="entidad.parametro">{{ entidad.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="placa">Placa</label>
+                                    <input type="text" id="placa" class="form-control" [(ngModel)]="agenteForm.placa" maxlength="100" required />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" class="form-control" [(ngModel)]="agenteForm.email" maxlength="100" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="input-firma-add">Firma</label>
+                                    <input type="file" accept="image/jpeg" id="input-firma-add" class="form-control" ng2FileSelect [uploader]="uploader" />
+                                    <br />
+                                    <button type="button" class="btn btn-success btn-s" (click)="cargarFirma()">
+                                        <i class="fa fa-upload"></i>
+                                        <span>Cargar</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <img id="img-firma-add" src="" height="100" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-floppy-o"></i>
+                                <span>Aceptar</span>
+                            </button>
+                            
+                            <button type="button" id="btn-limpiar" class="btn btn-md btn-primary" (click)="resetFormulario()">
+                                <i class="fa fa-undo"></i>
+                                <span>Resetear</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                    <input type="button" id="btn-load-persona" (click)="cargarPersona()" hidden />
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

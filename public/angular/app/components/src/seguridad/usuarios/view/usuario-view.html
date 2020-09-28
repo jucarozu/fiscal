@@ -1,0 +1,54 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4>
+                <span>Usuarios</span>
+                <button class="btn btn-md btn-link" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#add-usuario" *ngIf="opcion.adiciona">
+                    <i class="fa fa-plus"></i>
+                    <span>Adicionar</span>
+                </button>
+                <button id="btn-buscar" class="btn btn-md btn-link" (click)="getUsuarios()" *ngIf="opcion.consulta">
+                    <i class="fa fa-search"></i>
+                    <span>Buscar</span>
+                </button>
+            </h4>
+        </div>
+
+        <p-dataTable [value]="usuarios" [rows]="10" [paginator]="true" [responsive]="true">
+            <p-column [style]="{'width':'30%'}" field="nombres_apellidos" header="Nombres y apellidos" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column [style]="{'width':'20%'}" field="login" header="Login" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column [style]="{'width':'30%'}" field="email" header="Email" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column [style]="{'width':'10%'}" field="estado_desc" header="Estado" [filter]="true" filterMatchMode="contains"></p-column>
+            
+            <p-column [style]="{'width':'10%'}">
+                <template let-usuario="rowData">
+                    <button class="btn btn-xs btn-info" data-toggle="modal" data-backdrop="static" data-target="#detail-usuario" (click)="selectUsuario(usuario)" 
+                        *ngIf="opcion.consulta">
+                        <span class="fa fa-bars" title="Ver detalle"></span>
+                    </button>
+                    <button class="btn btn-xs btn-success" data-toggle="modal" data-backdrop="static" data-target="#edit-usuario" (click)="selectUsuario(usuario)" 
+                        *ngIf="opcion.edita && usuario.estado == 1">
+                        <span class="fa fa-pencil" title="Editar"></span>
+                    </button>
+                    <button class="btn btn-xs btn-danger" data-toggle="modal" data-backdrop="static" data-target="#delete-usuario" (click)="selectUsuario(usuario)" 
+                        *ngIf="opcion.elimina && usuario.estado == 1">
+                        <span class="fa fa-close" title="Inactivar"></span>
+                    </button>
+                </template>
+            </p-column>
+        </p-dataTable>
+
+        <usuario-add></usuario-add>
+        <usuario-detail [usuario]="selectedUsuario"></usuario-detail>
+        <usuario-edit [usuario]="selectedUsuario"></usuario-edit>
+        <usuario-delete [usuario]="selectedUsuario"></usuario-delete>
+
+        <persona-add></persona-add>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>

@@ -1,0 +1,32 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4><span>Placas sin datos</span></h4>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <p>Se encontraron <b>{{ cantPlacas }}</b> placas sin datos.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn btn-success btn-s" (click)="descargar()" [disabled]="cantPlacas == 0">
+                            <i class="fa fa-download"></i>
+                            <span>Descargar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

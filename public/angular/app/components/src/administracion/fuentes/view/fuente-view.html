@@ -1,0 +1,122 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4>
+                <span>Fuentes de evidencias</span>
+                <button class="btn btn-md btn-link" data-toggle="modal" data-backdrop="static" data-target="#add-fuente" *ngIf="opcion.adiciona">
+                    <i class="fa fa-plus"></i>
+                    <span>Adicionar</span>
+                </button>
+            </h4>
+            
+            <div *ngIf="opcion.consulta">
+                <form id="form-fuente" role="form" (ngSubmit)="getFuentes()">                    
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="tipo">Tipo</label>
+                                <select id="tipo" class="form-control" [(ngModel)]="fuenteFilter.tipo">
+                                    <option *ngFor="let tipo of tiposFuentes" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" id="nombre" class="form-control" [(ngModel)]="fuenteFilter.nombre" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="prov_nombre">Proveedor</label>
+                                <input type="text" id="prov_nombre" class="form-control" [(ngModel)]="fuenteFilter.prov_nombre" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="referencia_ubicacion">Referencia ubicación</label>
+                                <input type="text" id="referencia_ubicacion" class="form-control" [(ngModel)]="fuenteFilter.referencia_ubicacion" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <button type="submit" id="btn-buscar" class="btn btn-md btn-link">
+                                <i class="fa fa-search"></i>
+                                <span>Buscar</span>
+                            </button>
+                            <button type="button" id="btn-limpiar" class="btn btn-md btn-link" (click)="resetFilter()">
+                                <i class="fa fa-close"></i>
+                                <span>Limpiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <p-dataTable [value]="fuentes" [rows]="5" [paginator]="true" [responsive]="true">
+            <p-column [style]="{'width':'10%'}" field="tipo_desc" header="Tipo"></p-column>
+            <p-column [style]="{'width':'15%'}" field="nombre" header="Nombre"></p-column>
+            <p-column [style]="{'width':'10%'}" field="desde" header="Fecha activación"></p-column>
+            <p-column [style]="{'width':'20%'}" field="observaciones" header="Observaciones"></p-column>
+
+            <p-column [style]="{'width':'5%'}" header="WS">
+                <template let-fuente="rowData">
+                    <span>{{ fuente.ws ? 'SI' : 'NO' }}</span>
+                </template>
+            </p-column>
+
+            <p-column [style]="{'width':'5%'}" header="FTP">
+                <template let-fuente="rowData">
+                    <span>{{ fuente.ftp ? 'SI' : 'NO' }}</span>
+                </template>
+            </p-column>
+
+            <p-column [style]="{'width':'25%'}" field="referencia_ubicacion" header="Ref. ubicación"></p-column>
+
+            <p-column [style]="{'width':'5%', 'text-align':'center'}" header="Mapa">
+                <template let-fuente="rowData">
+                    <button class="btn btn-xs btn-primary" data-toggle="modal" data-backdrop="static" data-target="#detail-fuente" 
+                        (click)="selectFuente(fuente)" *ngIf="opcion.consulta && (fuente.latitud != null || fuente.longitud != null)">
+                        <span class="fa fa-map-marker" title="Ver mapa"></span>
+                    </button>
+                </template>
+            </p-column>
+            
+            <p-column [style]="{'width':'5%'}">
+                <template let-fuente="rowData">
+                    <button class="btn btn-xs btn-success" data-toggle="modal" data-backdrop="static" data-target="#edit-fuente" 
+                        (click)="selectFuente(fuente)" *ngIf="opcion.edita">
+                        <span class="fa fa-pencil" title="Editar"></span>
+                    </button>
+                </template>
+            </p-column>
+        </p-dataTable>
+
+        <sebm-google-map style="height: 400px;" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [streetViewControl]="false">
+            <sebm-google-map-marker *ngFor="let fuente of fuentes" [latitude]="fuente.latitud" [longitude]="fuente.longitud" [label]="fuente.nombre">                
+                <sebm-google-map-info-window [disableAutoPan]="true">
+                    Nombre: {{ fuente.nombre }} <br />
+                    Ubicación: {{ fuente.referencia_ubicacion }}
+                </sebm-google-map-info-window>
+            </sebm-google-map-marker>
+        </sebm-google-map>
+
+        <fuente-add></fuente-add>
+        <fuente-edit [fuente]="selectedFuente"></fuente-edit>
+        <fuente-detail [fuente]="selectedFuente"></fuente-detail>
+
+        <persona-add></persona-add>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

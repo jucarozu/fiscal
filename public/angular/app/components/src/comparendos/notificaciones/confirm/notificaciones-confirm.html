@@ -1,0 +1,36 @@
+<div class="modal fade" id="confirm-notificaciones" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Confirmar impresión de notificaciones</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>Existen comparendos aprobados por agentes de tránsito que no poseen firma mecánica, por lo tanto no serán incluidos en las notificaciones a generar.</p>
+                <h5><strong>Agentes de tránsito:</strong></h5>
+                <ul>
+                    <li *ngFor="let agente of agentesSinFirma">{{ agente.agt_nombres_apellidos }}</li>
+                </ul>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" id="btn-aceptar" class="btn btn-md btn-success" (click)="confirmar()">
+                    <i class="fa fa-check"></i>
+                    <span>Confirmar</span>
+                </button>
+                
+                <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="cancelar()">
+                    <i class="fa fa-times"></i>
+                    <span>Cancelar</span>
+                </button>
+            </div>
+
+            <div *ngIf="loading()">
+                <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

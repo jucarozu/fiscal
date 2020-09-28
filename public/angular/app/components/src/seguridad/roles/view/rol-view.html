@@ -1,0 +1,43 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4>
+                <span>Roles</span>
+                <button class="btn btn-md btn-link" data-toggle="modal" data-backdrop="static" data-target="#add-rol" *ngIf="opcion.adiciona">
+                    <i class="fa fa-plus"></i>
+                    <span>Adicionar</span>
+                </button>
+                <button id="btn-buscar" class="btn btn-md btn-link" (click)="getRoles()" *ngIf="opcion.consulta">
+                    <i class="fa fa-search"></i>
+                    <span>Buscar</span>
+                </button>
+            </h4>
+        </div>
+
+        <p-dataTable [value]="roles" [rows]="10" [paginator]="true" [responsive]="true">
+            <p-column [style]="{'width':'30%'}" field="nombre" header="Nombre" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column [style]="{'width':'60%'}" field="descripcion" header="Descripción" [filter]="true" filterMatchMode="contains"></p-column>
+
+            <p-column [style]="{'width':'10%'}">
+                <template let-rol="rowData">
+                    <button class="btn btn-xs btn-info" data-toggle="modal" data-backdrop="static" data-target="#detail-rol" (click)="selectRol(rol)" *ngIf="opcion.consulta">
+                        <span class="fa fa-bars" title="Ver detalle"></span>
+                    </button>
+                    <button class="btn btn-xs btn-success" data-toggle="modal" data-backdrop="static" data-target="#edit-rol" (click)="selectRol(rol)" *ngIf="opcion.edita">
+                        <span class="fa fa-pencil" title="Editar"></span>
+                    </button>
+                </template>
+            </p-column>
+        </p-dataTable>
+
+        <rol-add></rol-add>
+        <rol-detail [rol]="selectedRol"></rol-detail>
+        <rol-edit [rol]="selectedRol"></rol-edit>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>

@@ -1,0 +1,36 @@
+export interface IDeteccion {
+    deteccion: number;
+    fecha: string;
+    hora: string;
+    estado: number;
+    estado_desc: string;
+    fuente: number;
+    referencia_disp: string;
+    latitud: number;
+    longitud: number;
+    direccion: string;
+    complemento_direccion: string;
+    placa: string;
+    tipo_vehiculo: number;
+    tipo_vehiculo_desc: string;
+    color: string;
+    servicio: number;
+    servicio_desc: string;
+    nivel: number;
+    nivel_desc: string;
+    carril: string;
+    sentido: number;
+    sentido_desc: string;
+    velocidad: number;
+    unidad_velocidad: number;
+    unidad_velocidad_desc: string;
+    observaciones: string;
+    modo_carga: number;
+    modo_carga_desc: string;
+    usuario: number;
+    usuario_desc: string;
+    fecha_registra: string;
+    direccion_ip: string;
+    evidencias: Object;
+    infracciones: Object;
+}

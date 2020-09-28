@@ -1,0 +1,149 @@
+<div class="modal fade" id="detail-persona" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Detalle persona</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tipo_doc">Tipo documento</label>
+                            <select id="tipo_doc" class="form-control" [(ngModel)]="personaForm.tipo_doc" disabled>
+                                <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="numero_doc">Número documento</label>
+                            <input type="text" id="numero_doc" class="form-control" [(ngModel)]="personaForm.numero_doc" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="fecha_exped_doc">Fecha expedición</label>
+                            <input type="date" id="fecha_exped_doc" class="form-control" [(ngModel)]="personaForm.fecha_exped_doc" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="departamento_doc">Departamento expedición</label>
+                            <select id="departamento_doc" class="form-control" [(ngModel)]="personaForm.cod_departamento_doc" (blur)="cargarMunicipios(personaForm.cod_departamento_doc)" disabled>
+                                <option *ngFor="let departamento of departamentos" [value]="departamento.cod_departamento">{{ departamento.departamento }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="municipio_doc">Municipio expedición</label>
+                            <select id="municipio_doc" class="form-control" [(ngModel)]="personaForm.cod_municipio_doc" disabled>
+                                <option *ngFor="let municipio of municipios" [value]="municipio.cod_municipio">{{ municipio.municipio }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="nombres">Nombres</label>
+                            <input type="text" id="nombres" class="form-control" [(ngModel)]="personaForm.nombres" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="apellidos">Apellidos</label>
+                            <input type="text" id="apellidos" class="form-control" [(ngModel)]="personaForm.apellidos" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" [(ngModel)]="personaForm.email" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="genero">Género</label>
+                            <select id="genero" class="form-control" [(ngModel)]="personaForm.genero" disabled>
+                                <option *ngFor="let genero of generos" [value]="genero.parametro">{{ genero.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="grupo_sanguineo">Grupo sanguíneo</label>
+                            <select id="grupo_sanguineo" class="form-control" [(ngModel)]="personaForm.grupo_sanguineo" disabled>
+                                <option *ngFor="let grupoSanguineo of gruposSanguineos" [value]="grupoSanguineo.parametro">{{ grupoSanguineo.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="numero_celular">Teléfono móvil</label>
+                            <input type="text" id="numero_celular" class="form-control" [(ngModel)]="personaForm.numero_celular" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="fecha_registro">Fecha registro</label>
+                            <input type="date" id="fecha_registro" class="form-control" [(ngModel)]="personaForm.fecha_registro" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="usuario_registra">Usuario registra</label>
+                            <input type="text" id="usuario_registra" class="form-control" [(ngModel)]="personaForm.usuario_registra_desc" disabled />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-md btn-primary" data-dismiss="modal" data-toggle="modal" data-backdrop="static" data-target="#edit-persona" *ngIf="opcion.edita">
+                        <i class="fa fa-pencil"></i>
+                        <span>Editar</span>
+                    </button>
+
+                    <button type="button" class="btn btn-md btn-danger" data-dismiss="modal">
+                        <i class="fa fa-sign-out"></i>
+                        <span>Cerrar</span>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="loading()">
+                <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+            </div>
+
+            <input type="button" id="btn-load-municipios" (click)="cargarMunicipios(personaForm.cod_departamento_doc)" hidden />
+
+        </div>
+    </div>
+</div>

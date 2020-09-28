@@ -1,0 +1,90 @@
+<div class="container col-md-12">
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h4><span>Cargar información propietarios</span></h4>
+        </div>
+
+        <div class="panel-body">
+            <div class="row" style="display: flex; align-items: flex-end;">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="input-plano">Archivo .CSV</label>
+                        <input type="file" accept=".csv" id="input-plano" class="form-control" ng2FileSelect [uploader]="uploader" />
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="separador">Separador</label>
+                        <select id="separador" class="form-control" [(ngModel)]="separador" required>
+                            <option *ngFor="let caracter of caracteres" [value]="caracter.valor" [selected]="caracter.valor == ','">{{ caracter.nombre }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="checkbox" id="tiene_encabezados" [(ngModel)]="tieneEncabezados" />
+                        <label for="tiene_encabezados">Tiene encabezados</label>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button type="button" id="btn-cargar" class="btn btn-md btn-primary" (click)="cargarPlano()" [disabled]="!uploader.queue.length">
+                            <i class="fa fa-upload"></i>
+                            <span>Cargar</span>
+                        </button>
+
+                        <button type="button" id="btn-procesar" class="btn btn-md btn-success" (click)="procesarInformacion()" [disabled]="!uploader.queue.length || !filas.length">
+                            <i class="fa fa-cogs"></i>
+                            <span>Procesar</span>
+                        </button>
+
+                        <button type="button" id="btn-reset-formulario" class="btn btn-md btn-danger" (click)="resetFormulario()">
+                            <i class="fa fa-undo"></i>
+                            <span>Resetear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 100%; height: 400px; overflow: auto;">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th *ngFor="let encabezado of encabezados">{{ encabezado }}</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr>
+                        <td *ngFor="let encabezado of encabezados">
+                            <select class="select-campo form-control">
+                                <option [value]=""></option>
+                                <option *ngFor="let campo of camposValidos" [value]="campo.valor" [selected]="campo.nombre.toLowerCase() == encabezado.toLowerCase()">{{ campo.nombre }}</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr *ngFor="let fila of filasView">
+                        <td *ngFor="let columna of fila">{{ columna }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="loading()">
+    <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+</div>
+
+<div id="div-contenido-plano" hidden></div>
+<input type="button" id="btn-visualizar-plano" (click)="visualizarContenidoPlano()" hidden />
+<input type="button" id="btn-reset-uploader" (click)="resetUploader()" hidden />
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

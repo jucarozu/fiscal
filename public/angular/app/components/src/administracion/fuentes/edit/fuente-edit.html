@@ -1,0 +1,175 @@
+<div class="modal fade" id="edit-fuente" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Editar fuente de evidencias</h4>
+            </div>
+            
+            <div>
+                <form id="form-fuente" role="form" (ngSubmit)="actualizar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tipo">Tipo fuente</label>
+                                    <select id="tipo" class="form-control" [(ngModel)]="fuenteForm.tipo" disabled>
+                                        <option *ngFor="let tipo of tiposFuentes" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" class="form-control" [(ngModel)]="fuenteForm.nombre" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="prov_tipo_doc">Tipo doc. proveedor</label>
+                                    <select id="prov_tipo_doc" class="form-control" [(ngModel)]="fuenteForm.prov_tipo_doc" (blur)="getPersonaByDocumento()" disabled>
+                                        <option *ngFor="let tipo of documentos" [value]="tipo.parametro">{{ tipo.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="prov_numero_doc">Número doc. proveedor</label>
+                                    <input type="text" id="prov_numero_doc" class="form-control" placeholder="Ingrese número de documento" maxlength="20"
+                                        [(ngModel)]="fuenteForm.prov_numero_doc" (blur)="getPersonaByDocumento()" disabled />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="prov_nombre">Nombre proveedor</label>
+                                    <input type="text" id="prov_nombre" class="form-control" [(ngModel)]="fuenteForm.prov_nombre" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="desde">Fecha inicial</label>
+                                    <input type="date" id="desde" class="form-control" [(ngModel)]="fuenteForm.desde" required />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="hasta">Fecha final</label>
+                                    <input type="date" id="hasta" class="form-control" [(ngModel)]="fuenteForm.hasta" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="checkbox" id="ws" [(ngModel)]="fuenteForm.ws" />
+                                    <label for="ws">Reporta WS</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="checkbox" id="ftp" [(ngModel)]="fuenteForm.ftp" />
+                                    <label for="ftp">Reporta FTP</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="observaciones">Observaciones</label>
+                                    <textarea rows="3" id="observaciones" class="form-control" [(ngModel)]="fuenteForm.observaciones" 
+                                        placeholder="Ingrese una observación" maxlength="255">
+                                    </textarea>
+                                </div>
+                            </div>
+                        
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="referencia_ubicacion">Referencia ubicación</label>
+                                    <textarea rows="3" id="referencia_ubicacion" class="form-control" [(ngModel)]="fuenteForm.referencia_ubicacion" 
+                                        placeholder="Ingrese una referencia de ubicación" maxlength="255" required>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <sebm-google-map #mapEdit style="height: 300px;" 
+                            [latitude]="fuenteForm.latitud != null ? fuenteForm.latitud : lat" 
+                            [longitude]="fuenteForm.longitud != null ? fuenteForm.longitud : lng" 
+                            [zoom]="zoom" 
+                            [streetViewControl]="false" 
+                            (mapClick)="mapClicked($event)">
+                            
+                            <sebm-google-map-marker 
+                                *ngIf="fuenteForm.latitud != null && fuenteForm.longitud != null" 
+                                [latitude]="fuenteForm.latitud" 
+                                [longitude]="fuenteForm.longitud" 
+                                [label]="Fuente" 
+                                [markerDraggable]="true" 
+                                (dragEnd)="markerDragEnd($event)">
+                                
+                                <sebm-google-map-info-window [disableAutoPan]="true">
+                                    Tipo fuente: {{ fuenteForm.tipo_desc }} <br />
+                                    Nombre: {{ fuenteForm.nombre }} <br />
+                                    Ubicación: {{ fuenteForm.referencia_ubicacion }} <br />
+                                    Latitud: {{ fuenteForm.latitud }} <br />
+                                    Longitud: {{ fuenteForm.longitud }}
+                                </sebm-google-map-info-window>
+
+                            </sebm-google-map-marker>
+                        </sebm-google-map>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-floppy-o"></i>
+                                <span>Aceptar</span>
+                            </button>
+                            
+                            <button type="button" id="btn-reset-edit" class="btn btn-md btn-primary" (click)="resetFormulario()">
+                                <i class="fa fa-undo"></i>
+                                <span>Resetear</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                    <input type="button" id="btn-load-mapa-edit" (click)="mapEdit.triggerResize()" hidden />
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

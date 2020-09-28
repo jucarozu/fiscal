@@ -1,0 +1,82 @@
+<div class="modal fade" id="cola-envios" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Poner en cola</h4>
+            </div>
+            
+            <div>
+                <form id="form-cola" role="form" (ngSubmit)="insertar()">
+                    <div class="modal-body">
+
+                        <div id="div-errores" *ngIf="errores">
+                            <div class="alert alert-danger" *ngFor="let error of errores">
+                                <span>{{ error }}</span>
+                            </div>
+                        </div>
+
+                        <label>Seleccione la dirección a la que se realizará el envío.</label>
+
+                        <div style="height: 200px; overflow: auto;">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-5">Dirección</th>
+                                    <th class="col-md-3">Municipio</th>
+                                    <th class="col-md-3">Departamento</th>
+                                </tr>
+                                <tr class="list-group" *ngFor="let direccion of direcciones">
+                                    <td><input type="checkbox" [(ngModel)]="direccion.is_selected" (change)="setDireccion(direccion)" /></td>
+                                    <td>{{ direccion.descripcion }}</td>
+                                    <td>{{ direccion.municipio }}</td>
+                                    <td>{{ direccion.departamento }}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-md btn-link" data-toggle="modal" data-backdrop="static" data-target="#add-direccion">
+                                        <i class="fa fa-plus"></i>
+                                        <span>Agregar nueva dirección</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" id="btn-aceptar" class="btn btn-md btn-success">
+                                <i class="fa fa-save"></i>
+                                <span>Aceptar</span>
+                            </button>
+
+                            <button type="button" id="btn-cancelar" class="btn btn-md btn-danger" (click)="close()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Cancelar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loading()">
+                        <i class="fa fa-spinner fa-pulse fa-3x" style="position: absolute; left: 50%; top: 50%;"></i>
+                    </div>
+
+                    <input type="button" id="btn-get-direcciones" (click)="getNotifDirecciones()" hidden />
+                    <input type="hidden" id="nueva-direccion" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<simple-notifications [options]="notificationsOptions"></simple-notifications>

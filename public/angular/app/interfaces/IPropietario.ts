@@ -1,0 +1,37 @@
+export interface IPropietario {
+    propietario: number;
+    placa: string;
+    persona: number;
+    tipo_doc: number;
+    tipo_doc_desc: string;
+    numero_doc: string;
+    nombres: string;
+    apellidos: string;
+    nombres_apellidos: string;
+    fuente: number;
+    fuente_desc: string;
+    tipo: number;
+    tipo_desc: string;
+    locatario: number;
+    loc_tipo_doc: number;
+    loc_tipo_doc_desc: string;
+    loc_numero_doc: string;
+    loc_nombres: string;
+    loc_apellidos: string;
+    loc_nombres_apellidos: string;
+    desde: string;
+    hasta: string;
+    fecha_registra: string;
+    dias_registro: number;
+    usuario: number;
+    usuario_desc: string;
+    dir_direccion: number;
+    dir_divipo: number;
+    dir_cod_departamento: number;
+    dir_departamento: string;
+    dir_cod_municipio: number;
+    dir_municipio: string;
+    dir_cod_poblado: number;
+    dir_poblado: string;
+    dir_descripcion: string;
+}

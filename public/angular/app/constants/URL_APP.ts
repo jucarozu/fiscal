@@ -1,0 +1,1 @@
+export const URL_APP : string = 'http://localhost:8000/fiscalizacion/';
